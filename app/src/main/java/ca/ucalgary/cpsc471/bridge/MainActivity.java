@@ -1,5 +1,6 @@
 package ca.ucalgary.cpsc471.bridge;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -80,16 +81,25 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        }
+        else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
+        }
+        else if (id == R.id.nav_slideshow) {
 
-        } else if (id == R.id.nav_tools) {
+        }
+        else if (id == R.id.nav_tools) {
 
-        } else if (id == R.id.nav_share) {
+        }
+        else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
+        }
+        else if (id == R.id.nav_send) {
 
+        }
+        else if (id == R.id.nav_mainmenu){
+            Intent intent = new Intent(this, SelectionActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
