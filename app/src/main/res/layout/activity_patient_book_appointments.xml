@@ -17,6 +17,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="48dp"
         android:background="#FFFFFF"
+        android:onClick="attemptBooking"
         android:text="Book Appointment"
         android:textColor="#347CDF"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -25,7 +25,7 @@ public class PatientSignInActivity extends AppCompatActivity {
             }
             else {
                 // TODO: Send the valid ID to the next activity. (View Appointments by default?) So that it can propagate that information.
-                Intent intent = new Intent(this, PatientMainActivity.class);
+                Intent intent = new Intent(this, PatientBookAppointmentsActivity.class);
                 startActivity(intent);
 
             }
