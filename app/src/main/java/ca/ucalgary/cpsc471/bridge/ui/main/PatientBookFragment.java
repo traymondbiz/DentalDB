@@ -1,4 +1,4 @@
-package ca.ucalgary.cpsc471.bridge;
+package ca.ucalgary.cpsc471.bridge.ui.main;
 
 import android.content.Context;
 import android.net.Uri;
@@ -7,17 +7,25 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import ca.ucalgary.cpsc471.bridge.PatientMainActivity;
+import ca.ucalgary.cpsc471.bridge.R;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link PatientAcctFragment.OnFragmentInteractionListener} interface
+ * {@link PatientBookFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link PatientAcctFragment#newInstance} factory method to
+ * Use the {@link PatientBookFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PatientAcctFragment extends Fragment {
+public class PatientBookFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,7 +37,7 @@ public class PatientAcctFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public PatientAcctFragment() {
+    public PatientBookFragment() {
         // Required empty public constructor
     }
 
@@ -39,11 +47,11 @@ public class PatientAcctFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment PatientAcctFragment.
+     * @return A new instance of fragment PatientBookFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PatientAcctFragment newInstance(String param1, String param2) {
-        PatientAcctFragment fragment = new PatientAcctFragment();
+    public static PatientBookFragment newInstance(String param1, String param2) {
+        PatientBookFragment fragment = new PatientBookFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,10 +69,44 @@ public class PatientAcctFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_patient_acct, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_patient_book, container, false);
+        setApptSpinnerContent(view);
+        setApptButtonListener(view);
+        return view;
+    }
+
+    // Sets up the Spinner in PatientBookFragment's layout.
+    private void setApptSpinnerContent(View view){
+        // Set up the spinner in PatientBookFragment
+        Spinner dropDown = view.findViewById(R.id.apptTypeSpinner);
+        String[] apptTypes = new String[]{"Cleaning", "Other"};
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, apptTypes);
+        dropDown.setAdapter(arrayAdapter);
+    }
+
+    // Sets up a listener to handle button presses in PatientBookFragment's layout.
+    private void setApptButtonListener(View view){
+        Button bookApptButton = (Button) view.findViewById(R.id.patientBookApptButton);
+        bookApptButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Spinner dropDown = v.getRootView().findViewById(R.id.apptTypeSpinner);
+                TextView selectedAppt = (TextView) dropDown.getSelectedView();
+                String result = selectedAppt.getText().toString();
+
+                if (result.equals("Cleaning")){
+                    Toast.makeText(getActivity(), "Cleaning not available.", Toast.LENGTH_SHORT).show();
+                }
+                else if (result.equals("Other")){
+                    Toast.makeText(getActivity(), "Other not available.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getActivity(), "Unexpected Spinner selection.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -90,6 +132,7 @@ public class PatientAcctFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
 
     /**
      * This interface must be implemented by activities that contain this

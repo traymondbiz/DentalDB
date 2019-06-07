@@ -1,4 +1,4 @@
-package ca.ucalgary.cpsc471.bridge;
+package ca.ucalgary.cpsc471.bridge.ui.main;
 
 import android.content.Context;
 import android.net.Uri;
@@ -8,16 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import ca.ucalgary.cpsc471.bridge.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link PatientViewFragment.OnFragmentInteractionListener} interface
+ * {@link PatientAcctFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link PatientViewFragment#newInstance} factory method to
+ * Use the {@link PatientAcctFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PatientViewFragment extends Fragment {
+public class PatientAcctFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,7 +31,7 @@ public class PatientViewFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public PatientViewFragment() {
+    public PatientAcctFragment() {
         // Required empty public constructor
     }
 
@@ -39,11 +41,11 @@ public class PatientViewFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment PatientViewFragment.
+     * @return A new instance of fragment PatientAcctFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PatientViewFragment newInstance(String param1, String param2) {
-        PatientViewFragment fragment = new PatientViewFragment();
+    public static PatientAcctFragment newInstance(String param1, String param2) {
+        PatientAcctFragment fragment = new PatientAcctFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -64,7 +66,7 @@ public class PatientViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_patient_view, container, false);
+        return inflater.inflate(R.layout.fragment_patient_acct, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

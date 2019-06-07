@@ -10,8 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LeftoversPatBookAppt"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".PatientMainActivity"
+            android:label="@string/title_activity_patient_main"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".DentistSignInActivity"
             android:theme="@style/AppTheme.NoActionBar" />
