@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import ca.ucalgary.cpsc471.bridge.PatientMainActivity;
@@ -96,11 +97,13 @@ public class PatientBookFragment extends Fragment {
                 TextView selectedAppt = (TextView) dropDown.getSelectedView();
                 String result = selectedAppt.getText().toString();
 
+                TimePicker timePicker = v.getRootView().findViewById(R.id.timerPicker1);
+
                 if (result.equals("Cleaning")){
-                    Toast.makeText(getActivity(), "Cleaning not available.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Cleaning @ " + timePicker.getHour() + ":" + timePicker.getMinute(), Toast.LENGTH_SHORT).show();
                 }
                 else if (result.equals("Other")){
-                    Toast.makeText(getActivity(), "Other not available.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Other @ " + timePicker.getHour() + ":" + timePicker.getMinute(), Toast.LENGTH_SHORT).show();
                 }
                 else {
                     Toast.makeText(getActivity(), "Unexpected Spinner selection.", Toast.LENGTH_SHORT).show();
