@@ -8,7 +8,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class PatientBookAppointmentsActivity extends AppCompatActivity {
+public class LeftoversPatBookAppt extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +16,7 @@ public class PatientBookAppointmentsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_patient_book_appointments);
 
         // Set up the drop-down menu for appointment types.
-        Spinner dropDown = findViewById(R.id.spinner);
+        Spinner dropDown = findViewById(R.id.apptTypeSpinner);
         String[] apptTypes = new String[]{"Cleaning", "Other"};
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, apptTypes);
         dropDown.setAdapter(arrayAdapter);
@@ -24,7 +24,7 @@ public class PatientBookAppointmentsActivity extends AppCompatActivity {
     }
 
     public void attemptBooking(View view){
-        Spinner dropDown = findViewById(R.id.spinner);
+        Spinner dropDown = findViewById(R.id.apptTypeSpinner);
         TextView selectedAppt = (TextView) dropDown.getSelectedView();
         String result = selectedAppt.getText().toString();
 

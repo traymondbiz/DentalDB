@@ -16,7 +16,7 @@ public class PatientSignInActivity extends AppCompatActivity {
     }
 
     public void attemptSignIn(View view){
-        EditText inputIDField = (EditText) findViewById(R.id.editText2);
+        EditText inputIDField = (EditText) findViewById(R.id.patientIDBox);
         try {
             int inputID = Integer.parseInt(inputIDField.getText().toString());
             if (inputID != 1){
@@ -25,7 +25,7 @@ public class PatientSignInActivity extends AppCompatActivity {
             }
             else {
                 // TODO: Send the valid ID to the next activity. (View Appointments by default?) So that it can propagate that information.
-                Intent intent = new Intent(this, PatientBookAppointmentsActivity.class);
+                Intent intent = new Intent(this, PatientViewAppointmentsActivity.class);
                 startActivity(intent);
 
             }

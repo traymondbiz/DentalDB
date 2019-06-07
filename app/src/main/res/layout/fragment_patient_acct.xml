@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout3"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PatientAcctFragment">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/dentalicon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="32dp"
+        android:text="John Doe"
+        android:textColor="#343434"
+        android:textSize="24sp"
+        android:typeface="serif"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="164dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="16dp"
+        android:text="Placeholder Clinic"
+        android:textColor="#343434"
+        android:textSize="18sp"
+        android:typeface="serif"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintVertical_bias="1.0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/idLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ID:"
+                android:textColor="#242424"
+                android:textSize="24sp"
+                android:typeface="serif" />
+
+            <TextView
+                android:id="@+id/idTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="112233344"
+                android:textColor="#5A5A5A"
+                android:textSize="20sp"
+                android:typeface="serif" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="16dp" />
+
+            <TextView
+                android:id="@+id/addrLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Address:"
+                android:textColor="#242424"
+                android:textSize="24sp"
+                android:typeface="serif" />
+
+            <TextView
+                android:id="@+id/streetUnitTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2000 Nullville Heights NW"
+                android:textColor="#5A5A5A"
+                android:textSize="20sp"
+                android:typeface="serif" />
+
+            <TextView
+                android:id="@+id/cityProvincePostalTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Falscity, Nantario - NULL 404"
+                android:textColor="#5A5A5A"
+                android:textSize="20sp"
+                android:typeface="serif" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="16dp" />
+
+            <TextView
+                android:id="@+id/dobLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Date of Birth:"
+                android:textColor="#242424"
+                android:textSize="24sp"
+                android:typeface="serif" />
+
+            <TextView
+                android:id="@+id/dobTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="March 20, 1990"
+                android:textColor="#5A5A5A"
+                android:textSize="20sp"
+                android:typeface="serif" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="16dp" />
+
+            <TextView
+                android:id="@+id/insuranceLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Insurance No:"
+                android:textColor="#242424"
+                android:textSize="24sp"
+                android:typeface="serif" />
+
+            <TextView
+                android:id="@+id/insuranceTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="192 168 001 001"
+                android:textColor="#5A5A5A"
+                android:textSize="20sp"
+                android:typeface="serif" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="16dp" />
+
+            <TextView
+                android:id="@+id/sexLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sex:"
+                android:textColor="#242424"
+                android:textSize="24sp"
+                android:typeface="serif" />
+
+            <TextView
+                android:id="@+id/sexTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Male"
+                android:textColor="#5A5A5A"
+                android:textSize="20sp"
+                android:typeface="serif" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="32dp"
+        android:clickable="true"
+        android:src="@drawable/ic_menu_manage"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

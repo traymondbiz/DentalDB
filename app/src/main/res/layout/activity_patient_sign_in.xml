@@ -7,7 +7,7 @@
     tools:context=".PatientSignInActivity">
 
     <ImageView
-        android:id="@+id/logoImageView2"
+        android:id="@+id/patientSignInLogo"
         android:layout_width="253dp"
         android:layout_height="241dp"
         android:layout_marginStart="16dp"
@@ -24,7 +24,7 @@
         app:srcCompat="@drawable/tooth" />
 
     <TextView
-        android:id="@+id/buttonPromptTextView2"
+        android:id="@+id/patientSignInPrompt"
         android:layout_width="253dp"
         android:layout_height="28dp"
         android:layout_marginStart="16dp"
@@ -34,19 +34,19 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         android:gravity="center"
-        android:text="Enter Patient ID"
+        android:text="@string/enter_patient_id"
         android:textColor="#434343"
         android:textIsSelectable="false"
         android:textSize="18sp"
         android:typeface="normal"
         app:fontFamily="serif"
-        app:layout_constraintBottom_toTopOf="@+id/logoImageView2"
+        app:layout_constraintBottom_toTopOf="@+id/patientSignInLogo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/patientSignInButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="162dp"
@@ -56,15 +56,15 @@
         android:layout_marginRight="162dp"
         android:background="#FFFFFF"
         android:onClick="attemptSignIn"
-        android:text="Sign In"
+        android:text="@string/sign_in"
         android:textColor="#347CDF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        app:layout_constraintTop_toBottomOf="@+id/patientIDBox" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/patientIDBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -73,10 +73,11 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:ems="10"
-        android:hint="Patient ID"
+        android:hint="@string/patient_id"
         android:inputType="number"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoImageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/patientSignInLogo"
+        android:importantForAutofill="no" />
 </android.support.constraint.ConstraintLayout>

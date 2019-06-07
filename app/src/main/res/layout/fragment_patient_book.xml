@@ -2,45 +2,46 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PatientBookAppointmentsActivity">
+    tools:context=".PatientBookFragment" >
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/patientBookApptButton"
         android:layout_width="164dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="48dp"
         android:background="#FFFFFF"
         android:onClick="attemptBooking"
-        android:text="Book Appointment"
+        android:text="@string/book_appointment"
         android:textColor="#347CDF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendarView2" />
+        app:layout_constraintTop_toBottomOf="@+id/patientBookCalenderView" />
 
     <CalendarView
-        android:id="@+id/calendarView2"
+        android:id="@+id/patientBookCalenderView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="31dp"
         android:layout_marginLeft="31dp"
-        android:layout_marginTop="220dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="31dp"
         android:layout_marginRight="31dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/apptTypeSpinner" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/patientApptTypeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="125dp"
@@ -49,28 +50,27 @@
         android:layout_marginEnd="126dp"
         android:layout_marginRight="126dp"
         android:layout_marginBottom="16dp"
-        android:text="Appointment Type"
+        android:text="@string/appointment_type"
         android:textColor="#434343"
         android:textSize="24sp"
         android:typeface="normal"
         app:fontFamily="serif"
-        app:layout_constraintBottom_toTopOf="@+id/spinner"
+        app:layout_constraintBottom_toTopOf="@+id/apptTypeSpinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/apptTypeSpinner"
         android:layout_width="299dp"
         android:layout_height="50dp"
         android:layout_marginStart="56dp"
         android:layout_marginLeft="56dp"
-        android:layout_marginTop="29dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="56dp"
         android:layout_marginRight="56dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/calendarView2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/patientApptTypeText" />
 </android.support.constraint.ConstraintLayout>

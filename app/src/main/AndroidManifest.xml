@@ -9,14 +9,8 @@
         android:roundIcon="@drawable/dentalicon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PatientBookAppointmentsActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".PatientMainActivity"
-            android:label="@string/title_activity_patient_main"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".PatientViewAppointmentsActivity"
+            android:name=".LeftoversPatBookAppt"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".DentistSignInActivity"

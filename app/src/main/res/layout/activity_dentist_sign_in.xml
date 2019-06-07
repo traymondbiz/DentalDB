@@ -7,7 +7,7 @@
     tools:context=".DentistSignInActivity">
 
     <ImageView
-        android:id="@+id/logoImageView3"
+        android:id="@+id/dentistSignInLogo"
         android:layout_width="253dp"
         android:layout_height="241dp"
         android:layout_marginStart="16dp"
@@ -24,7 +24,7 @@
         app:srcCompat="@drawable/tooth" />
 
     <TextView
-        android:id="@+id/buttonPromptTextView3"
+        android:id="@+id/dentistSignInPrompt"
         android:layout_width="253dp"
         android:layout_height="28dp"
         android:layout_marginStart="16dp"
@@ -34,19 +34,19 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         android:gravity="center"
-        android:text="Enter Dentist SIN"
+        android:text="@string/enter_dentist_sin"
         android:textColor="#434343"
         android:textIsSelectable="false"
         android:textSize="18sp"
         android:typeface="normal"
         app:fontFamily="serif"
-        app:layout_constraintBottom_toTopOf="@+id/logoImageView3"
+        app:layout_constraintBottom_toTopOf="@+id/dentistSignInLogo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/patientSignInButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="162dp"
@@ -55,15 +55,15 @@
         android:layout_marginEnd="162dp"
         android:layout_marginRight="162dp"
         android:background="#FFFFFF"
-        android:text="Sign In"
+        android:text="@string/sign_in"
         android:textColor="#347CDF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/dentistSINBox" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/dentistSINBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -72,10 +72,11 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:ems="10"
-        android:hint="Dentist SIN"
+        android:hint="@string/dentist_sin"
         android:inputType="number"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoImageView3" />
+        app:layout_constraintTop_toBottomOf="@+id/dentistSignInLogo"
+        android:importantForAutofill="no" />
 </android.support.constraint.ConstraintLayout>
