@@ -2,35 +2,17 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout2"
+    android:id="@+id/frameLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.patientMain.PatientBookFragment" >
-
-    <TimePicker
-        android:id="@+id/timerPicker1"
-        android:layout_width="wrap_content"
-        android:layout_height="91dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="24dp"
-        android:timePickerMode="spinner"
-
-        app:layout_constraintBottom_toTopOf="@+id/patientBookApptButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/patientBookCalenderView"></TimePicker>
+    tools:context=".ui.dentistMain.DentistBookFragment" >
 
     <Button
-        android:id="@+id/patientBookApptButton"
+        android:id="@+id/patientBookApptButton2"
         android:layout_width="164dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginBottom="32dp"
         android:background="#FFFFFF"
         android:text="@string/book_appointment"
@@ -40,28 +22,24 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <CalendarView
-        android:id="@+id/patientBookCalenderView"
+        android:id="@+id/patientBookCalenderView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="31dp"
-        android:layout_marginLeft="31dp"
         android:layout_marginEnd="31dp"
-        android:layout_marginRight="31dp"
-        app:layout_constraintBottom_toTopOf="@+id/timerPicker1"
+        app:layout_constraintBottom_toTopOf="@+id/timerPicker"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/apptTypeSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/apptTypeSpinner3" />
 
     <TextView
-        android:id="@+id/patientApptTypeText"
+        android:id="@+id/patientApptTypeText3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="125dp"
-        android:layout_marginLeft="125dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="126dp"
-        android:layout_marginRight="126dp"
         android:text="@string/appointment_type"
         android:textColor="#434343"
         android:textSize="24sp"
@@ -72,7 +50,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-        android:id="@+id/apptTypeSpinner"
+        android:id="@+id/apptTypeSpinner3"
         android:layout_width="299dp"
         android:layout_height="50dp"
         android:layout_marginStart="56dp"
@@ -81,7 +59,21 @@
         android:background="#C8F0F0F0"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/patientApptTypeText" />
+        app:layout_constraintTop_toBottomOf="@+id/patientApptTypeText3" />
+
+    <TimePicker
+        android:id="@+id/timerPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="91dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+
+        android:layout_marginBottom="24dp"
+        android:timePickerMode="spinner"
+        app:layout_constraintBottom_toTopOf="@+id/patientBookApptButton2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/patientBookCalenderView2"></TimePicker>
 </android.support.constraint.ConstraintLayout>

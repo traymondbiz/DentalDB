@@ -1,4 +1,4 @@
-package ca.ucalgary.cpsc471.bridge.ui.main;
+package ca.ucalgary.cpsc471.bridge.ui.patientMain;
 
 import android.content.Context;
 import android.net.Uri;
@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import ca.ucalgary.cpsc471.bridge.PatientMainActivity;
 import ca.ucalgary.cpsc471.bridge.R;
 
 

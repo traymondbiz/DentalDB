@@ -1,4 +1,4 @@
-package ca.ucalgary.cpsc471.bridge.ui.main;
+package ca.ucalgary.cpsc471.bridge.ui.patientMain;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -1,4 +1,4 @@
-package ca.ucalgary.cpsc471.bridge.ui.main;
+package ca.ucalgary.cpsc471.bridge.ui.patientMain;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -6,7 +6,6 @@ import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.view.View;
 
 import ca.ucalgary.cpsc471.bridge.R;
 
