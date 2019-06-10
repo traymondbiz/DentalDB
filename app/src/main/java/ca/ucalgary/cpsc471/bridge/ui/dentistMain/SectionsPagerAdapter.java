@@ -17,7 +17,7 @@ import ca.ucalgary.cpsc471.bridge.ui.AboutFragment;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_4, R.string.tab_text_2, R.string.tab_text_5, R.string.tab_text_6};
+    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_4, R.string.tab_text_2, R.string.tab_text_5, R.string.tab_text_3,R.string.tab_text_6};
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
@@ -37,9 +37,12 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             fragment = DentistBookFragment.newInstance(null, null);
         }
         else if (position == 2){
-            fragment = DentistAcctSearchFragment.newInstance(null, null);
+            fragment = DentistPatientAcctSearchFragment.newInstance(null, null);
         }
         else if (position == 3){
+            fragment = DentistAcctFragment.newInstance(null, null);
+        }
+        else if (position == 4){
             fragment = AboutFragment.newInstance(null, null);
         }
         return fragment;

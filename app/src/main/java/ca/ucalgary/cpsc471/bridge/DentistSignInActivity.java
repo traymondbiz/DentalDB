@@ -26,6 +26,7 @@ public class DentistSignInActivity extends AppCompatActivity {
             else {
                 // TODO: Send the valid ID to the next activity. (View Appointments by default?) So that it can propagate that information.
                 Intent intent = new Intent(this, DentistMainActivity.class);
+                intent.putExtra("dentistSIN", inputID);
                 startActivity(intent);
 
             }

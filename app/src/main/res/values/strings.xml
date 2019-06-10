@@ -34,7 +34,7 @@
     <string name="enter_patient_id">Enter Patient ID</string>
     <string name="appointments">Appointments</string>
 
-    <string name="about">Bridge was made by:\n\nRaymond Tran\nYoustina Attia\nJiaxuan Tong</string>
+    <string name="about">Bridge was made by:\n(Group 2)\n\nRaymond Tran\nYoustina Attia\nJiaxuan Tong\n\nAs a CPSC 471 project.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

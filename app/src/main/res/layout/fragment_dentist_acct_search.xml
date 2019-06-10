@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout6"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.dentistMain.DentistAcctSearchFragment" >
+    tools:context=".ui.dentistMain.DentistPatientAcctSearchFragment" >
 
     <ImageView
         android:id="@+id/patientSignInLogo2"
@@ -24,14 +24,14 @@
 
     <TextView
         android:id="@+id/patientSignInPrompt2"
-        android:layout_width="253dp"
-        android:layout_height="28dp"
+        android:layout_width="249dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="147dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:gravity="center"
-        android:text="@string/enter_patient_id"
+        android:text="Enter Patient ID\n to View Profile"
         android:textColor="#434343"
         android:textIsSelectable="false"
         android:textSize="18sp"
