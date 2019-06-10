@@ -1,4 +1,4 @@
-package ca.ucalgary.cpsc471.bridge.ui.patientMain;
+package ca.ucalgary.cpsc471.bridge.ui;
 
 import android.content.Context;
 import android.net.Uri;
@@ -7,25 +7,20 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import ca.ucalgary.cpsc471.bridge.R;
 
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link PatientBookFragment.OnFragmentInteractionListener} interface
+ * {@link AboutFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link PatientBookFragment#newInstance} factory method to
+ * Use the {@link AboutFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PatientBookFragment extends Fragment {
+public class AboutFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -37,7 +32,7 @@ public class PatientBookFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public PatientBookFragment() {
+    public AboutFragment() {
         // Required empty public constructor
     }
 
@@ -47,11 +42,11 @@ public class PatientBookFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment PatientBookFragment.
+     * @return A new instance of fragment AboutFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PatientBookFragment newInstance(String param1, String param2) {
-        PatientBookFragment fragment = new PatientBookFragment();
+    public static AboutFragment newInstance(String param1, String param2) {
+        AboutFragment fragment = new AboutFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -70,45 +65,32 @@ public class PatientBookFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_patient_book, container, false);
-        setApptSpinnerContent(view);
-        setApptButtonListener(view);
+        View view =  inflater.inflate(R.layout.fragment_about, container, false);
+        setSignOutButtonListener(view);
         return view;
     }
 
-    // Sets up the Spinner in PatientBookFragment's layout.
-    private void setApptSpinnerContent(View view){
-        // Set up the spinner in PatientBookFragment
-        Spinner dropDown = view.findViewById(R.id.apptTypeSpinner);
-        String[] apptTypes = new String[]{"Cleaning", "Other"};
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, apptTypes);
-        dropDown.setAdapter(arrayAdapter);
-    }
-
-    // Sets up a listener to handle button presses in PatientBookFragment's layout.
-    private void setApptButtonListener(View view){
-        Button bookApptButton = (Button) view.findViewById(R.id.patientBookApptButton);
-        bookApptButton.setOnClickListener(new View.OnClickListener() {
-
+    private void setSignOutButtonListener(View view){
+        Button signOutButton = (Button) view.findViewById(R.id.signOutButton);
+        signOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Spinner dropDown = v.getRootView().findViewById(R.id.apptTypeSpinner);
-                TextView selectedAppt = (TextView) dropDown.getSelectedView();
-                String result = selectedAppt.getText().toString();
-
-                TimePicker timePicker = v.getRootView().findViewById(R.id.timerPicker1);
-
-                if (result.equals("Cleaning")){
-                    Toast.makeText(getActivity(), "Cleaning @ " + timePicker.getHour() + ":" + timePicker.getMinute(), Toast.LENGTH_SHORT).show();
+                try {
+                    Toast.makeText(getActivity(), "Signed out.", Toast.LENGTH_SHORT).show();
+                    getActivity().finish();
                 }
-                else if (result.equals("Other")){
-                    Toast.makeText(getActivity(), "Other @ " + timePicker.getHour() + ":" + timePicker.getMinute(), Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Toast.makeText(getActivity(), "Unexpected Spinner selection.", Toast.LENGTH_SHORT).show();
+                catch (NullPointerException e){
+                    Toast.makeText(getActivity(), "NullPointer on attempted sign out.", Toast.LENGTH_LONG).show();
                 }
             }
         });
+    }
+
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
     }
 
     @Override
@@ -127,7 +109,6 @@ public class PatientBookFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
 
     /**
      * This interface must be implemented by activities that contain this

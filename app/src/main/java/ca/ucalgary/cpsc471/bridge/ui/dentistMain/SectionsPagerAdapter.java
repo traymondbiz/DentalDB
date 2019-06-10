@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import ca.ucalgary.cpsc471.bridge.R;
+import ca.ucalgary.cpsc471.bridge.ui.AboutFragment;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
@@ -16,7 +17,7 @@ import ca.ucalgary.cpsc471.bridge.R;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2};
+    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_4, R.string.tab_text_2, R.string.tab_text_5, R.string.tab_text_6};
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
@@ -28,7 +29,20 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        return PlaceholderFragment.newInstance(position + 1);
+        Fragment fragment = null;
+        if (position == 0){
+            fragment = DentistViewFragment.newInstance(null ,null);
+        }
+        else if (position == 1){
+            fragment = DentistBookFragment.newInstance(null, null);
+        }
+        else if (position == 2){
+            fragment = DentistAcctSearchFragment.newInstance(null, null);
+        }
+        else if (position == 3){
+            fragment = AboutFragment.newInstance(null, null);
+        }
+        return fragment;
     }
 
     @Nullable
@@ -39,7 +53,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        // Show 2 total pages.
-        return 2;
+        return TAB_TITLES.length;
     }
 }
