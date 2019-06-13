@@ -7,8 +7,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import ca.ucalgary.cpsc471.bridge.R;
@@ -74,8 +77,45 @@ public class PatientViewFragment extends Fragment {
         // TODO: Populate list of appt by ID here, and loop to inflate. (Will have to change performTestInflation() to inflate accordingly.
 
         initializeInflaterButton(view);
+        setFilterButtonListener(view);
 
         return view;
+    }
+
+    private void setFilterButtonListener(View view){
+        Spinner filterSpinner = view.findViewById(R.id.patientFilterSpinner);
+        String[] filterList = {"None", "Cleaning", "Other"};
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, filterList);
+        filterSpinner.setAdapter(arrayAdapter);
+
+        filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                TextView selectedFilter = (TextView) view;
+                String filterResult = selectedFilter.getText().toString();
+
+                for (int i = 0; i < apptList.getChildCount(); i++){
+                    View aView = apptList.getChildAt(i);
+                    TextView apptType = aView.findViewById(R.id.typeTextView);
+                    String apptResult = apptType.getText().toString();
+                    if (!apptResult.equals("Cleaning") && filterResult.equals("Cleaning")){
+                        aView.setVisibility(View.GONE);
+                    }
+                    else if (!apptResult.equals("Other") && filterResult.equals("Other")){
+                        aView.setVisibility(View.GONE);
+                    }
+                    else {
+                        aView.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
     }
 
     private void initializeInflaterButton(View view){
@@ -91,8 +131,18 @@ public class PatientViewFragment extends Fragment {
     private void performTestInflation(View view, int count){
         LayoutInflater li = getActivity().getLayoutInflater();
         final View aView = li.inflate(R.layout.layout_test, null);
+
+        // Alternate between setting the test-inflated view as cleaning/other.
         TextView title = aView.findViewById(R.id.timeTextView);
-        title.setText("12:0" + count + " - 2h");
+        TextView apptType = aView.findViewById(R.id.typeTextView);
+        if (count % 2 == 0){
+            apptType.setText("Other");
+            title.setText("12:0" + count + " - 2h");
+        }
+        else {
+            apptType.setText("Cleaning");
+            title.setText("12:0" + count + " - 1h");
+        }
 
         Button viewCancelButton = (Button) aView.findViewById(R.id.cancelButton);
         viewCancelButton.setOnClickListener(new View.OnClickListener() {

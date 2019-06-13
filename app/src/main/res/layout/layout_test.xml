@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/imageBackground"
         android:layout_width="0dp"
-        android:layout_height="118dp"
+        android:layout_height="138dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
@@ -21,7 +21,7 @@
     <ImageView
         android:id="@+id/imageForeground"
         android:layout_width="0dp"
-        android:layout_height="110dp"
+        android:layout_height="130dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
@@ -44,16 +44,28 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/typeDateTextView"
+        android:id="@+id/dateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:fontFamily="serif"
-        android:text="Cleaning (June 28, 2019)"
+        android:text="June 28, 2019"
         android:textSize="18sp"
         android:typeface="serif"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timeTextView" />
+
+    <TextView
+        android:id="@+id/typeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="serif"
+        android:text="Cleaning"
+        android:textSize="18sp"
+        android:typeface="serif"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dateTextView" />
 
     <TextView
         android:id="@+id/clinicRoomTextView"
@@ -64,7 +76,7 @@
         android:textSize="18sp"
         android:typeface="serif"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/typeDateTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/typeTextView" />
 
     <Button
         android:id="@+id/cancelButton"
@@ -77,5 +89,17 @@
         android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/idTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="serif"
+        android:text="1"
+        android:textColor="#F8F8F8"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cancelButton" />
 
 </android.support.constraint.ConstraintLayout>
