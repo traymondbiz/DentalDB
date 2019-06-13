@@ -68,21 +68,17 @@ public class DentistViewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dentist_view, container, false);
+        apptList = (LinearLayout) view.findViewById(R.id.dentistApptList);
 
-        apptList = (LinearLayout) view.findViewById(R.id.apptLayout);
-        // TODO: Find the entries here, create a resource bundle for each, and submit it to the inflater to update with.
-        for (int i = 0; i < 5; i++){
-            performTestInflation(view, i);
-        }
+        // TODO: Populate list of appt by ID here, and loop to inflate. (Will have to change performTestInflation() to inflate accordingly.
 
         initializeInflaterButton(view);
-
 
         return view;
     }
 
     private void initializeInflaterButton(View view){
-        Button inflateButton = (Button) view.findViewById(R.id.button3);
+        Button inflateButton = (Button) view.findViewById(R.id.dentistInflateButton);
         inflateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,10 +90,10 @@ public class DentistViewFragment extends Fragment {
     private void performTestInflation(View view, int count){
         LayoutInflater li = getActivity().getLayoutInflater();
         final View aView = li.inflate(R.layout.layout_test, null);
-        TextView title = aView.findViewById(R.id.textView4);
+        TextView title = aView.findViewById(R.id.timeTextView);
         title.setText("12:0" + count + " - 2h");
 
-        apptList.addView(aView, apptList.getChildCount() - 1);
+        apptList.addView(aView, apptList.getChildCount());
 
     }
 

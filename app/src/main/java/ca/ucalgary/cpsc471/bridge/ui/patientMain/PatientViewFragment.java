@@ -7,6 +7,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import ca.ucalgary.cpsc471.bridge.R;
 
@@ -28,6 +31,7 @@ public class PatientViewFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private LinearLayout apptList;
 
     private OnFragmentInteractionListener mListener;
 
@@ -63,10 +67,35 @@ public class PatientViewFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_patient_view, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_patient_view, container, false);
+        apptList = (LinearLayout) view.findViewById(R.id.patientApptList);
+
+        // TODO: Populate list of appt by ID here, and loop to inflate. (Will have to change performTestInflation() to inflate accordingly.
+
+        initializeInflaterButton(view);
+
+        return view;
+    }
+
+    private void initializeInflaterButton(View view){
+        Button inflateButton = (Button) view.findViewById(R.id.patientInflateButton);
+        inflateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                performTestInflation(v.getRootView(), apptList.getChildCount());
+            }
+        });
+    }
+
+    private void performTestInflation(View view, int count){
+        LayoutInflater li = getActivity().getLayoutInflater();
+        final View aView = li.inflate(R.layout.layout_test, null);
+        TextView title = aView.findViewById(R.id.timeTextView);
+        title.setText("12:0" + count + " - 2h");
+
+        apptList.addView(aView, apptList.getChildCount());
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
