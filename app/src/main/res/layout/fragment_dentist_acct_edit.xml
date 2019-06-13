@@ -7,16 +7,25 @@
     tools:context=".ui.dentistMain.DentistAcctEditFragment"
     android:id="@+id/frameLayout" >
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
-        android:clickable="true"
-        android:src="@drawable/ic_menu_manage"
+        android:src="@android:drawable/ic_menu_save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="32dp"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ScrollView
         android:layout_width="0dp"
@@ -53,6 +62,7 @@
                 android:id="@+id/streetUnitTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Unit, StreetNo"
                 android:text="0 Nanton Park, SE"
                 android:textColor="#5A5A5A"
                 android:textSize="20sp"
@@ -84,6 +94,7 @@
                 android:id="@+id/dobTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Month Day, Year"
                 android:text="April 20, 1985"
                 android:textColor="#5A5A5A"
                 android:textSize="20sp"
@@ -128,6 +139,7 @@
                 android:id="@+id/sexTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Sex"
                 android:text="Female"
                 android:textColor="#5A5A5A"
                 android:textSize="20sp"
@@ -155,6 +167,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
+        android:hint="First, Middle, Last Name"
         android:text="Jane Doe"
         android:textColor="#343434"
         android:textSize="24sp"

@@ -94,6 +94,15 @@ public class PatientViewFragment extends Fragment {
         TextView title = aView.findViewById(R.id.timeTextView);
         title.setText("12:0" + count + " - 2h");
 
+        Button viewCancelButton = (Button) aView.findViewById(R.id.cancelButton);
+        viewCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                apptList.removeView(aView);
+                // TODO: Perform a DB operation to also remove the appt from the list by the ID specified in the view.
+            }
+        });
+
         apptList.addView(aView, apptList.getChildCount());
 
     }

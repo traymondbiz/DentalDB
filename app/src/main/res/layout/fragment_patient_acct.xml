@@ -8,7 +8,7 @@
     tools:context=".ui.patientMain.PatientAcctFragment">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/patientAcctPlaceholderIMG"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_marginStart="32dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/nameEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -29,11 +29,11 @@
         android:textColor="#343434"
         android:textSize="24sp"
         android:typeface="serif"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/patientAcctPlaceholderIMG"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/patientID"
         android:layout_width="164dp"
         android:layout_height="28dp"
         android:layout_marginStart="24dp"
@@ -42,8 +42,8 @@
         android:textColor="#343434"
         android:textSize="18sp"
         android:typeface="serif"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintStart_toEndOf="@+id/patientAcctPlaceholderIMG"
+        app:layout_constraintTop_toBottomOf="@+id/nameEditText" />
 
     <ScrollView
         android:layout_width="0dp"
@@ -58,7 +58,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/patientID"
         app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
