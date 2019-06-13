@@ -1,6 +1,7 @@
 package ca.ucalgary.cpsc471.bridge;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -28,6 +29,38 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + DB_NAME);
         onCreate(db);
 
+    }
+
+    public boolean signInPatient(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("SELECT * from patient WHERE ID = ?",new String[] { id });
+        if(res.getCount() == 0) {
+            res.close();
+            return false;
+        }
+        res.close();
+        return true;
+    }
+
+    public boolean signInDentist(String SIN){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("SELECT * from dentist WHERE SIN = ?",new String[] { SIN });
+        if(res.getCount() == 0) {
+            res.close();
+            return false;
+        }
+        res.close();
+        return true;
+    }
+
+    public Cursor viewPatientInfo(String ID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.rawQuery("SELECT * from patient WHERE ID = ?",new String[] { ID });
+    }
+
+    public Cursor viewDentistInfo(String SIN){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.rawQuery("SELECT * from dentist WHERE SIN = ?",new String[] { SIN });
     }
 
     // Tables can only have one primary key. Others commented out until an alternative solution is found.
