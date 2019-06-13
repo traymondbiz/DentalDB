@@ -1,4 +1,4 @@
-package ca.ucalgary.cpsc471.bridge.ui.dentistMain;
+package ca.ucalgary.cpsc471.bridge.ui.patientMain;
 
 import android.content.Context;
 import android.net.Uri;
@@ -7,26 +7,23 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import ca.ucalgary.cpsc471.bridge.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link DentistViewFragment.OnFragmentInteractionListener} interface
+ * {@link PatientAcctEditFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link DentistViewFragment#newInstance} factory method to
+ * Use the {@link PatientAcctEditFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DentistViewFragment extends Fragment {
+public class PatientAcctEditFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private LinearLayout apptList;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -34,7 +31,7 @@ public class DentistViewFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public DentistViewFragment() {
+    public PatientAcctEditFragment() {
         // Required empty public constructor
     }
 
@@ -44,11 +41,11 @@ public class DentistViewFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment DentistViewFragment.
+     * @return A new instance of fragment PatientAcctEditFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static DentistViewFragment newInstance(String param1, String param2) {
-        DentistViewFragment fragment = new DentistViewFragment();
+    public static PatientAcctEditFragment newInstance(String param1, String param2) {
+        PatientAcctEditFragment fragment = new PatientAcctEditFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -66,39 +63,10 @@ public class DentistViewFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_dentist_view, container, false);
-
-        apptList = (LinearLayout) view.findViewById(R.id.apptLayout);
-        // TODO: Find the entries here, create a resource bundle for each, and submit it to the inflater to update with.
-        for (int i = 0; i < 5; i++){
-            performTestInflation(view, i);
-        }
-
-        initializeInflaterButton(view);
-
-
-        return view;
-    }
-
-    private void initializeInflaterButton(View view){
-        Button inflateButton = (Button) view.findViewById(R.id.button3);
-        inflateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                performTestInflation(v.getRootView(), apptList.getChildCount());
-            }
-        });
-    }
-
-    private void performTestInflation(View view, int count){
-        LayoutInflater li = getActivity().getLayoutInflater();
-        final View aView = li.inflate(R.layout.layout_test, null);
-        TextView title = aView.findViewById(R.id.textView4);
-        title.setText("12:0" + count + " - 2h");
-
-        apptList.addView(aView, apptList.getChildCount() - 1);
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_patient_acct_edit, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

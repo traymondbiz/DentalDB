@@ -31,6 +31,7 @@ public class PatientMainActivity extends AppCompatActivity implements PatientVie
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+        tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 public class DentistSignInActivity extends AppCompatActivity {
@@ -13,6 +14,17 @@ public class DentistSignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dentist_sign_in);
+        setBackButtonListener();
+    }
+
+    private void setBackButtonListener(){
+        ImageView backButton = (ImageView) findViewById(R.id.imageView6);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     public void attemptSignIn(View view){
