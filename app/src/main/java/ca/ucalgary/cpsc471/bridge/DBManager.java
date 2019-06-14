@@ -9,11 +9,12 @@ public class DBManager extends SQLiteOpenHelper {
 
     // Define the database name.
     public static final String DB_NAME = "dental.db";
-
+    private SQLiteDatabase db;
+    
     public DBManager(Context context) {
         super(context, DB_NAME, null, 1);
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        db = this.getWritableDatabase();
     }
 
     @Override
@@ -30,7 +31,8 @@ public class DBManager extends SQLiteOpenHelper {
         onCreate(db);
 
     }
-
+    
+    // Returns true if patient ID exists in database
     public boolean signInPatient(String id){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("SELECT * from patient WHERE ID = ?",new String[] { id });
@@ -41,7 +43,8 @@ public class DBManager extends SQLiteOpenHelper {
         res.close();
         return true;
     }
-
+    
+     // Returns true if dentist SIN exists in database
     public boolean signInDentist(String SIN){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("SELECT * from dentist WHERE SIN = ?",new String[] { SIN });
@@ -52,17 +55,61 @@ public class DBManager extends SQLiteOpenHelper {
         res.close();
         return true;
     }
-
+    
+    // Returns cursor with required patient info
     public Cursor viewPatientInfo(String ID){
         SQLiteDatabase db = this.getWritableDatabase();
         return db.rawQuery("SELECT * from patient WHERE ID = ?",new String[] { ID });
     }
-
+    
+    // Returns cursor with required dentist info
     public Cursor viewDentistInfo(String SIN){
         SQLiteDatabase db = this.getWritableDatabase();
         return db.rawQuery("SELECT * from dentist WHERE SIN = ?",new String[] { SIN });
     }
 
+    // Returns cursor with patient's appointments
+    public Cursor viewPatientAppointments(String ID){
+        return db.rawQuery("SELECT * from appointment WHERE AppointPatientID = ?",new String[] { ID });
+    }
+    
+    // Returns true once patient info is updated
+    public boolean updatePatientInfo(String ID, String FName, String MName, String LName, String StNo, String unit, String postalCode,String city, String province, String DOB, String sex, String insurance){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("FirstName",FName);
+        contentValues.put("MiddleName",MName);
+        contentValues.put("LastName",LName);
+        contentValues.put("StreetNumber",StNo);
+        contentValues.put("Unit",unit);
+        contentValues.put("PostalCode",postalCode);
+        contentValues.put("City",city);
+        contentValues.put("Province",province);
+        contentValues.put("DateOfBirth",DOB);
+        contentValues.put("Sex",sex);
+        contentValues.put("InsuranceNumber",insurance);
+        db.update("patient", contentValues, "ID = ?",new String[] { ID });
+        return true;
+    }
+    
+    // Returns true once dentist info is updated
+    public boolean updateDentistInfo(String SIN, String FName, String MName, String LName, String StNo, String unit, String postalCode,String city, String province, String DOB, String sex){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("FirstName",FName);
+        contentValues.put("MiddleName",MName);
+        contentValues.put("LastName",LName);
+        contentValues.put("StreetNumber",StNo);
+        contentValues.put("Unit",unit);
+        contentValues.put("PostalCode",postalCode);
+        contentValues.put("City",city);
+        contentValues.put("Province",province);
+        contentValues.put("DateOfBirth",DOB);
+        contentValues.put("Sex",sex);
+        db.update("dentist", contentValues, "SIN = ?",new String[] { SIN });
+        return true;
+    }
+    
     // Tables can only have one primary key. Others commented out until an alternative solution is found.
     private void createTables(SQLiteDatabase db){
         // Employee
