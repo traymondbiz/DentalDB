@@ -10,11 +10,14 @@ import android.widget.Toast;
 
 public class DentistSignInActivity extends AppCompatActivity {
 
+    DBManager dbManager = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dentist_sign_in);
         setBackButtonListener();
+        dbManager = new DBManager(this);
     }
 
     private void setBackButtonListener(){
@@ -30,13 +33,14 @@ public class DentistSignInActivity extends AppCompatActivity {
     public void attemptSignIn(View view){
         EditText inputSINField = (EditText) findViewById(R.id.dentistSINBox);
         try {
-            int inputID = Integer.parseInt(inputSINField.getText().toString());
-            if (inputID != 2){
-                // TODO: Replace with query to DB. Should check to see if valid ID. If so, populate fields with provided ID.
+            String inputID = inputSINField.getText().toString();
+            boolean successfulSignIn = dbManager.signInPatient(inputID);
+
+            // TODO: Replace once an existing populated database can be used.
+            if (/*!successfulSignIn*/ !inputID.equals("2")){
                 throw new NumberFormatException();
             }
             else {
-                // TODO: Send the valid ID to the next activity. (View Appointments by default?) So that it can propagate that information.
                 Intent intent = new Intent(this, DentistMainActivity.class);
                 intent.putExtra("dentistSIN", inputID);
                 startActivity(intent);

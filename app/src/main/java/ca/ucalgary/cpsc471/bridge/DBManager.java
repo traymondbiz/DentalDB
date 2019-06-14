@@ -12,8 +12,6 @@ public class DBManager extends SQLiteOpenHelper {
 
     public DBManager(Context context) {
         super(context, DB_NAME, null, 1);
-
-        SQLiteDatabase db = this.getWritableDatabase();
     }
 
     @Override
@@ -27,7 +25,7 @@ public class DBManager extends SQLiteOpenHelper {
     // Drops any existing table and recreates it.
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + DB_NAME);
-        onCreate(db);
+        this.onCreate(db);
 
     }
 

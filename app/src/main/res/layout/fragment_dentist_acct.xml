@@ -102,7 +102,7 @@
                 android:typeface="serif" />
 
             <TextView
-                android:id="@+id/insuranceTextView"
+                android:id="@+id/salaryTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="66 000"

@@ -15,13 +15,13 @@ import ca.ucalgary.cpsc471.bridge.ui.dentistMain.SectionsPagerAdapter;
 
 public class DentistMainActivity extends AppCompatActivity implements DentistAcctFragment.OnFragmentInteractionListener, DentistPatientAcctSearchFragment.OnFragmentInteractionListener, DentistViewFragment.OnFragmentInteractionListener, DentistBookFragment.OnFragmentInteractionListener, AboutFragment.OnFragmentInteractionListener {
 
-    int dentistID;
+    String dentistID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Get the arguments from sign in.
         Bundle extras = getIntent().getExtras();
-        dentistID = extras.getInt("dentistSIN");
+        dentistID = extras.getString("dentistSIN");
 
         // Initialize the main activity and its tabs.
         super.onCreate(savedInstanceState);
@@ -32,6 +32,10 @@ public class DentistMainActivity extends AppCompatActivity implements DentistAcc
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
+    }
+
+    public String getDentistID(){
+        return dentistID;
     }
 
     @Override

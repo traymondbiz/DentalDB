@@ -15,13 +15,13 @@ import ca.ucalgary.cpsc471.bridge.ui.patientMain.SectionsPagerAdapter;
 
 public class PatientMainActivity extends AppCompatActivity implements PatientViewFragment.OnFragmentInteractionListener, PatientAcctFragment.OnFragmentInteractionListener, PatientBookFragment.OnFragmentInteractionListener, AboutFragment.OnFragmentInteractionListener {
 
-    int patientID;
+    String patientID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Get the arguments from sign in.
         Bundle extras = getIntent().getExtras();
-        patientID = extras.getInt("patientID");
+        patientID = extras.getString("patientID");
 
         // Initialize the main activity and its tabs.
         super.onCreate(savedInstanceState);
@@ -32,6 +32,10 @@ public class PatientMainActivity extends AppCompatActivity implements PatientVie
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
+    }
+
+    public String getPatientID(){
+        return patientID;
     }
 
     @Override

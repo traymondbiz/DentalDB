@@ -1,13 +1,17 @@
 package ca.ucalgary.cpsc471.bridge.ui.dentistMain;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import ca.ucalgary.cpsc471.bridge.DBManager;
+import ca.ucalgary.cpsc471.bridge.DentistMainActivity;
 import ca.ucalgary.cpsc471.bridge.R;
 
 /**
@@ -23,6 +27,7 @@ public class DentistAcctFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    DBManager dbManager = null;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -62,10 +67,47 @@ public class DentistAcctFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dentist_acct, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        dbManager = new DBManager(getActivity());
+        View view = inflater.inflate(R.layout.fragment_dentist_acct, container, false);
+
+        populateViewWithValues(view);
+        return view;
+    }
+
+    private void populateViewWithValues(View view){
+        DentistMainActivity mainActivity = (DentistMainActivity) getActivity();
+        Cursor dentistData = dbManager.viewDentistInfo(mainActivity.getDentistID());
+
+        TextView name = (TextView) view.findViewById(R.id.textView6);
+        TextView clinic = (TextView) view.findViewById(R.id.textView7);
+        TextView streetUnit = (TextView) view.findViewById(R.id.streetUnitTextView);
+        TextView cityProv = (TextView) view.findViewById(R.id.cityProvincePostalTextView);
+        TextView dob = (TextView) view.findViewById(R.id.dobTextView);
+        TextView salary = (TextView) view.findViewById(R.id.salaryTextView);
+        TextView sex = (TextView) view.findViewById(R.id.sexTextView);
+
+        // TODO: Dentist is a specialization of employee. Some of these queries (like Salary) may require extra set-up.
+        name.setText(dentistData.getString(dentistData.getColumnIndex("FirstName")) +
+                dentistData.getString(dentistData.getColumnIndex("MiddleName")) +
+                dentistData.getString(dentistData.getColumnIndex("LastName")));
+
+        clinic.setText(dentistData.getString(dentistData.getColumnIndex("AppointedClinicName")));
+
+        streetUnit.setText(dentistData.getString(dentistData.getColumnIndex("Unit")) +
+                dentistData.getString(dentistData.getColumnIndex("StreetNumber")));
+
+        cityProv.setText(dentistData.getString(dentistData.getColumnIndex("City")) + ", " +
+                dentistData.getString(dentistData.getColumnIndex("Province")) + " - " +
+                dentistData.getString(dentistData.getColumnIndex("PostalCode")));
+
+        dob.setText(dentistData.getString(dentistData.getColumnIndex("DateOfBirth")));
+
+        salary.setText(dentistData.getString(dentistData.getColumnIndex("Salary")));
+
+        sex.setText(dentistData.getString(dentistData.getColumnIndex("Sex")));
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
