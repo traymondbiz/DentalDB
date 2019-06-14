@@ -73,6 +73,71 @@ public class DBManager extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * from appointment WHERE AppointPatientID = ?",new String[] { ID });
     }
     
+    //Returns cursor with dentist's appointments
+    public Cursor viewDentistAppointments(String SIN){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.rawQuery("SELECT * from appointment WHERE ID IN (SELECT ID from other WHERE AttendingDentistSIN = ?)",new String[] { SIN });
+    }
+    
+    //Returns true if appointment is booked
+    public boolean bookAppointment(String patientID,String startTime, String appointmentType,String appointmentClinicName){
+        String assignedSIN;
+        String assignedClinic;
+        String roomNumber;
+        SQLiteDatabase db = this.getWritableDatabase();
+        if(appointmentType == "cleaning"){
+            assignedSIN = (db.rawQuery("SELECT AssignedHygienistSIN from patient WHERE ID = ?",new String[] { patientID })).getString(0);
+            roomNumber = (db.rawQuery("SELECT AssignedRoom from Hygienist WHERE SIN = ?",new String[] { assignedSIN })).getString(0);
+            assignedClinic = (db.rawQuery("SELECT AppointedClinicName from Employee WHERE SIN = ?",new String[] { assignedSIN })).getString(0);
+        }
+        else{
+            assignedSIN = (db.rawQuery("SELECT AssignedDentistSIN from patient WHERE ID = ?",new String[] { patientID })).getString(0);
+            roomNumber = (db.rawQuery("SELECT AssignedRoom from Dentist WHERE SIN = ?",new String[] { assignedSIN })).getString(0);
+            assignedClinic = (db.rawQuery("SELECT AppointedClinicName from Employee WHERE SIN = ?",new String[] { assignedSIN })).getString(0);
+        }
+        if((appointmentAvailability(startTime, appointmentType, assignedSIN))==true){
+            ContentValues appointmentContentValues = new ContentValues();
+            appointmentContentValues.put("StartTime",startTime);
+            appointmentContentValues.put("AppointmentType",appointmentType);
+            appointmentContentValues.put("AppointmentClinicName",assignedClinic);
+            appointmentContentValues.put("AppointRoomNumber",roomNumber);
+            appointmentContentValues.put("AppointPatientID", patientID);
+            db.insert("appointment", null, appointmentContentValues);
+            if(appointmentType=="cleaning"){
+                ContentValues cleaningContentValues = new ContentValues();
+                cleaningContentValues.put("ID",(db.rawQuery("SELECT ID from appointment WHERE AppointPatientID = ? AND StartTime = ?",new String[] { patientID,startTime })).getString(0));
+                cleaningContentValues.put("AttendingHygienist",assignedSIN);
+                db.insert("cleaning", null, cleaningContentValues);
+            }
+            else{
+                ContentValues otherContentValues = new ContentValues();
+                otherContentValues.put("ID",(db.rawQuery("SELECT ID from appointment WHERE AppointPatientID = ? AND StartTime = ?",new String[] { patientID,startTime })).getString(0));
+                otherContentValues.put("AttendingDentistSIN",assignedSIN);
+                otherContentValues.put("AttendingAssistantSIN",(db.rawQuery("SELECT SIN from dentalAssistant WHERE AssignedDentistSIN = ?",new String[] { assignedSIN })).getString(0));;
+                db.insert("other", null, otherContentValues);
+            }
+            return true;
+        }
+        else
+            return false;
+    }
+    
+    //Returns true if appointment available
+    public boolean appointmentAvailability(String startTime, String appointmentType, String assignedSIN){
+        Cursor res;
+        if (appointmentType == "cleaning"){
+            SQLiteDatabase db = this.getWritableDatabase();
+            res = db.rawQuery("SELECT * from appointment INNER JOIN cleaning ON appointment.ID = cleaning.ID WHERE StartTime = ? AND AttendingHygienistSIN = ?",new String[] { startTime, assignedSIN });
+        }
+        else {
+            SQLiteDatabase db = this.getWritableDatabase();
+            res = db.rawQuery("SELECT * from appointment INNER JOIN other ON appointment.ID = other.ID WHERE StartTime = ? AND AttendingDentistSIN = ?",new String[] { startTime, assignedSIN });
+        }
+        if (res.getCount()==0)
+            return true;
+        return false;
+    }
+    
     // Returns true once patient info is updated
     public boolean updatePatientInfo(String ID, String FName, String MName, String LName, String StNo, String unit, String postalCode,String city, String province, String DOB, String sex, String insurance){
         SQLiteDatabase db = this.getWritableDatabase();
