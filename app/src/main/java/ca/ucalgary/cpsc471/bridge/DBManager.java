@@ -9,9 +9,12 @@ public class DBManager extends SQLiteOpenHelper {
 
     // Define the database name.
     public static final String DB_NAME = "dental.db";
-
+    private SQLiteDatabase db;
+    
     public DBManager(Context context) {
         super(context, DB_NAME, null, 1);
+
+        db = this.getWritableDatabase();
     }
 
     @Override
@@ -25,10 +28,11 @@ public class DBManager extends SQLiteOpenHelper {
     // Drops any existing table and recreates it.
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + DB_NAME);
-        this.onCreate(db);
+        onCreate(db);
 
     }
-
+    
+    // Returns true if patient ID exists in database
     public boolean signInPatient(String id){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("SELECT * from patient WHERE ID = ?",new String[] { id });
@@ -39,7 +43,8 @@ public class DBManager extends SQLiteOpenHelper {
         res.close();
         return true;
     }
-
+    
+     // Returns true if dentist SIN exists in database
     public boolean signInDentist(String SIN){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("SELECT * from dentist WHERE SIN = ?",new String[] { SIN });
@@ -50,17 +55,126 @@ public class DBManager extends SQLiteOpenHelper {
         res.close();
         return true;
     }
-
+    
+    // Returns cursor with required patient info
     public Cursor viewPatientInfo(String ID){
         SQLiteDatabase db = this.getWritableDatabase();
         return db.rawQuery("SELECT * from patient WHERE ID = ?",new String[] { ID });
     }
-
+    
+    // Returns cursor with required dentist info
     public Cursor viewDentistInfo(String SIN){
         SQLiteDatabase db = this.getWritableDatabase();
         return db.rawQuery("SELECT * from dentist WHERE SIN = ?",new String[] { SIN });
     }
 
+    // Returns cursor with patient's appointments
+    public Cursor viewPatientAppointments(String ID){
+        return db.rawQuery("SELECT * from appointment WHERE AppointPatientID = ?",new String[] { ID });
+    }
+    
+    //Returns cursor with dentist's appointments
+    public Cursor viewDentistAppointments(String SIN){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.rawQuery("SELECT * from appointment WHERE ID IN (SELECT ID from other WHERE AttendingDentistSIN = ?)",new String[] { SIN });
+    }
+    
+    //Returns true if appointment is booked
+    public boolean bookAppointment(String patientID,String startTime, String appointmentType,String appointmentClinicName){
+        String assignedSIN;
+        String assignedClinic;
+        String roomNumber;
+        SQLiteDatabase db = this.getWritableDatabase();
+        if(appointmentType == "cleaning"){
+            assignedSIN = (db.rawQuery("SELECT AssignedHygienistSIN from patient WHERE ID = ?",new String[] { patientID })).getString(0);
+            roomNumber = (db.rawQuery("SELECT AssignedRoom from Hygienist WHERE SIN = ?",new String[] { assignedSIN })).getString(0);
+            assignedClinic = (db.rawQuery("SELECT AppointedClinicName from Employee WHERE SIN = ?",new String[] { assignedSIN })).getString(0);
+        }
+        else{
+            assignedSIN = (db.rawQuery("SELECT AssignedDentistSIN from patient WHERE ID = ?",new String[] { patientID })).getString(0);
+            roomNumber = (db.rawQuery("SELECT AssignedRoom from Dentist WHERE SIN = ?",new String[] { assignedSIN })).getString(0);
+            assignedClinic = (db.rawQuery("SELECT AppointedClinicName from Employee WHERE SIN = ?",new String[] { assignedSIN })).getString(0);
+        }
+        if((appointmentAvailability(startTime, appointmentType, assignedSIN))==true){
+            ContentValues appointmentContentValues = new ContentValues();
+            appointmentContentValues.put("StartTime",startTime);
+            appointmentContentValues.put("AppointmentType",appointmentType);
+            appointmentContentValues.put("AppointmentClinicName",assignedClinic);
+            appointmentContentValues.put("AppointRoomNumber",roomNumber);
+            appointmentContentValues.put("AppointPatientID", patientID);
+            db.insert("appointment", null, appointmentContentValues);
+            if(appointmentType=="cleaning"){
+                ContentValues cleaningContentValues = new ContentValues();
+                cleaningContentValues.put("ID",(db.rawQuery("SELECT ID from appointment WHERE AppointPatientID = ? AND StartTime = ?",new String[] { patientID,startTime })).getString(0));
+                cleaningContentValues.put("AttendingHygienist",assignedSIN);
+                db.insert("cleaning", null, cleaningContentValues);
+            }
+            else{
+                ContentValues otherContentValues = new ContentValues();
+                otherContentValues.put("ID",(db.rawQuery("SELECT ID from appointment WHERE AppointPatientID = ? AND StartTime = ?",new String[] { patientID,startTime })).getString(0));
+                otherContentValues.put("AttendingDentistSIN",assignedSIN);
+                otherContentValues.put("AttendingAssistantSIN",(db.rawQuery("SELECT SIN from dentalAssistant WHERE AssignedDentistSIN = ?",new String[] { assignedSIN })).getString(0));;
+                db.insert("other", null, otherContentValues);
+            }
+            return true;
+        }
+        else
+            return false;
+    }
+    
+    //Returns true if appointment available
+    public boolean appointmentAvailability(String startTime, String appointmentType, String assignedSIN){
+        Cursor res;
+        if (appointmentType == "cleaning"){
+            SQLiteDatabase db = this.getWritableDatabase();
+            res = db.rawQuery("SELECT * from appointment INNER JOIN cleaning ON appointment.ID = cleaning.ID WHERE StartTime = ? AND AttendingHygienistSIN = ?",new String[] { startTime, assignedSIN });
+        }
+        else {
+            SQLiteDatabase db = this.getWritableDatabase();
+            res = db.rawQuery("SELECT * from appointment INNER JOIN other ON appointment.ID = other.ID WHERE StartTime = ? AND AttendingDentistSIN = ?",new String[] { startTime, assignedSIN });
+        }
+        if (res.getCount()==0)
+            return true;
+        return false;
+    }
+    
+    // Returns true once patient info is updated
+    public boolean updatePatientInfo(String ID, String FName, String MName, String LName, String StNo, String unit, String postalCode,String city, String province, String DOB, String sex, String insurance){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("FirstName",FName);
+        contentValues.put("MiddleName",MName);
+        contentValues.put("LastName",LName);
+        contentValues.put("StreetNumber",StNo);
+        contentValues.put("Unit",unit);
+        contentValues.put("PostalCode",postalCode);
+        contentValues.put("City",city);
+        contentValues.put("Province",province);
+        contentValues.put("DateOfBirth",DOB);
+        contentValues.put("Sex",sex);
+        contentValues.put("InsuranceNumber",insurance);
+        db.update("patient", contentValues, "ID = ?",new String[] { ID });
+        return true;
+    }
+    
+    // Returns true once dentist info is updated
+    public boolean updateDentistInfo(String SIN, String FName, String MName, String LName, String StNo, String unit, String postalCode,String city, String province, String DOB, String sex){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("FirstName",FName);
+        contentValues.put("MiddleName",MName);
+        contentValues.put("LastName",LName);
+        contentValues.put("StreetNumber",StNo);
+        contentValues.put("Unit",unit);
+        contentValues.put("PostalCode",postalCode);
+        contentValues.put("City",city);
+        contentValues.put("Province",province);
+        contentValues.put("DateOfBirth",DOB);
+        contentValues.put("Sex",sex);
+        db.update("dentist", contentValues, "SIN = ?",new String[] { SIN });
+        return true;
+    }
+    
     // Tables can only have one primary key. Others commented out until an alternative solution is found.
     private void createTables(SQLiteDatabase db){
         // Employee
