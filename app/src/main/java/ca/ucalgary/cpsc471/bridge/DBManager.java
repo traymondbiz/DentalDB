@@ -1,5 +1,6 @@
 package ca.ucalgary.cpsc471.bridge;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
