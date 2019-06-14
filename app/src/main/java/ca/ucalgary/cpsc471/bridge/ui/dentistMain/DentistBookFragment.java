@@ -93,9 +93,14 @@ public class DentistBookFragment extends Fragment {
     // If 'Other' is selected, visualize the assistant's dropdown.
     private void setAsstSpinnerListener(View view){
         final Spinner apptSpin = view.findViewById(R.id.dentistApptSpinner);
+
         apptSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // When switching between fragments, sometimes onItemSelected() is activated without a view, resulting in NullPointerException.
+                if (view == null){
+                    return;
+                }
                 TextView selectedAppt = (TextView) view;
                 String apptResult = selectedAppt.getText().toString();
                 Spinner asstSpin = view.getRootView().findViewById(R.id.dentistAsstSpinner);

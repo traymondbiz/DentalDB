@@ -91,6 +91,10 @@ public class PatientViewFragment extends Fragment {
         filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // When switching between fragments, sometimes onItemSelected() is activated without a view, resulting in NullPointerException.
+                if (view == null){
+                    return;
+                }
                 TextView selectedFilter = (TextView) view;
                 String filterResult = selectedFilter.getText().toString();
 
