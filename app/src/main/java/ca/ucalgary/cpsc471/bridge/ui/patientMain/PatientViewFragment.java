@@ -1,6 +1,7 @@
 package ca.ucalgary.cpsc471.bridge.ui.patientMain;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,9 +14,13 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import ca.ucalgary.cpsc471.bridge.DatabaseAdapter;
+import ca.ucalgary.cpsc471.bridge.PatientMainActivity;
 import ca.ucalgary.cpsc471.bridge.R;
 
+import java.text.DateFormatSymbols;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,6 +40,7 @@ public class PatientViewFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private LinearLayout apptList;
+    DatabaseAdapter dbAdapter = null;
 
     private OnFragmentInteractionListener mListener;
 
@@ -73,13 +79,61 @@ public class PatientViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_patient_view, container, false);
         apptList = (LinearLayout) view.findViewById(R.id.patientApptList);
+        dbAdapter = new DatabaseAdapter(getActivity());
+        dbAdapter.createDatabase();
+        dbAdapter.open();
 
-        // TODO: Populate list of appt by ID here, and loop to inflate. (Will have to change performTestInflation() to inflate accordingly.
-
-        initializeInflaterButton(view);
+        populateFields(view);
         setFilterButtonListener(view);
 
         return view;
+    }
+
+    private void populateFields(View view){
+        PatientMainActivity mainActivity = (PatientMainActivity) getActivity();
+        Cursor patientAppts = dbAdapter.viewPatientAppointments(mainActivity.getPatientID());
+        patientAppts.moveToFirst();
+
+        LayoutInflater layoutInflater = getActivity().getLayoutInflater();
+
+        int numOfAppts = patientAppts.getCount();
+
+        for (int i = 0; i < numOfAppts; i++){
+            final View aView = layoutInflater.inflate(R.layout.layout_test, null);
+
+            String rawStartDate = patientAppts.getString(patientAppts.getColumnIndex("StartTime"));
+            String startTime = rawStartDate.substring(0, 5);    // HH:MM
+            String startDay = rawStartDate.substring(6, 8);
+            String startMonthNum = rawStartDate.substring(9, 11);
+            String startMonthTxt = getMonth(Integer.parseInt(startMonthNum));
+            String startYear = rawStartDate.substring(12, 16);
+
+            TextView title = aView.findViewById(R.id.timeTextView);
+            title.setText(startTime);
+
+            TextView date = aView.findViewById(R.id.dateTextView);
+            date.setText(startMonthTxt + " " + startDay + ", " + startYear);
+
+            TextView type = aView.findViewById(R.id.typeTextView);
+            type.setText(patientAppts.getString(patientAppts.getColumnIndex("AppointmentType")));
+
+            TextView loc = aView.findViewById(R.id.clinicRoomTextView);
+            String clinicName = patientAppts.getString(patientAppts.getColumnIndex("AppointmentClinicName"));
+            String roomNumber = patientAppts.getString(patientAppts.getColumnIndex("AppointRoomNumber"));
+            loc.setText(clinicName + " - Room " + roomNumber);
+
+            Button viewCancelButton = (Button) aView.findViewById(R.id.cancelButton);
+            viewCancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getActivity(), "Cancel button is cancelled ;-(", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            apptList.addView(aView, apptList.getChildCount());
+
+            patientAppts.moveToNext();
+        }
     }
 
     private void setFilterButtonListener(View view){
@@ -122,43 +176,8 @@ public class PatientViewFragment extends Fragment {
 
     }
 
-    private void initializeInflaterButton(View view){
-        Button inflateButton = (Button) view.findViewById(R.id.patientInflateButton);
-        inflateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                performTestInflation(v.getRootView(), apptList.getChildCount());
-            }
-        });
-    }
-
-    private void performTestInflation(View view, int count){
-        LayoutInflater li = getActivity().getLayoutInflater();
-        final View aView = li.inflate(R.layout.layout_test, null);
-
-        // Alternate between setting the test-inflated view as cleaning/other.
-        TextView title = aView.findViewById(R.id.timeTextView);
-        TextView apptType = aView.findViewById(R.id.typeTextView);
-        if (count % 2 == 0){
-            apptType.setText("Other");
-            title.setText("12:0" + count + " - 2h");
-        }
-        else {
-            apptType.setText("Cleaning");
-            title.setText("12:0" + count + " - 1h");
-        }
-
-        Button viewCancelButton = (Button) aView.findViewById(R.id.cancelButton);
-        viewCancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                apptList.removeView(aView);
-                // TODO: Perform a DB operation to also remove the appt from the list by the ID specified in the view.
-            }
-        });
-
-        apptList.addView(aView, apptList.getChildCount());
-
+    public String getMonth(int month){
+        return new DateFormatSymbols().getMonths()[month-1];
     }
 
     // TODO: Rename method, update argument and hook method into UI event

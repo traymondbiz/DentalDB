@@ -1,6 +1,7 @@
 package ca.ucalgary.cpsc471.bridge.ui.dentistMain;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,7 +14,13 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.DateFormatSymbols;
+
+import ca.ucalgary.cpsc471.bridge.DatabaseAdapter;
+import ca.ucalgary.cpsc471.bridge.DentistMainActivity;
+import ca.ucalgary.cpsc471.bridge.PatientMainActivity;
 import ca.ucalgary.cpsc471.bridge.R;
 
 /**
@@ -30,6 +37,7 @@ public class DentistViewFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private LinearLayout apptList;
+    DatabaseAdapter dbAdapter = null;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -73,12 +81,72 @@ public class DentistViewFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_dentist_view, container, false);
         apptList = (LinearLayout) view.findViewById(R.id.dentistApptList);
 
-        // TODO: Populate list of appt by ID here, and loop to inflate. (Will have to change performTestInflation() to inflate accordingly.
+        dbAdapter = new DatabaseAdapter(getActivity());
+        dbAdapter.createDatabase();
+        dbAdapter.open();
 
-        initializeInflaterButton(view);
+        populateFields(view);
         setFilterButtonListener(view);
 
         return view;
+    }
+
+    private void populateFields(View view){
+        DentistMainActivity mainActivity = (DentistMainActivity) getActivity();
+        Cursor dentistAppts = dbAdapter.viewDentistAppointments(mainActivity.getDentistID());
+        dentistAppts.moveToFirst();
+
+        LayoutInflater layoutInflater = getActivity().getLayoutInflater();
+
+        int numOfAppts = dentistAppts.getCount();
+
+        for (int i = 0; i < numOfAppts; i++){
+            final View aView = layoutInflater.inflate(R.layout.layout_test, null);
+
+            String rawStartDate = dentistAppts.getString(dentistAppts.getColumnIndex("StartTime"));
+            String startTime = rawStartDate.substring(0, 5);    // HH:MM
+            String startDay = rawStartDate.substring(6, 8);
+            String startMonthNum = rawStartDate.substring(9, 11);
+            String startMonthTxt = getMonth(Integer.parseInt(startMonthNum));
+            String startYear = rawStartDate.substring(12, 16);
+
+            TextView title = aView.findViewById(R.id.timeTextView);
+            title.setText(startTime);
+
+            TextView date = aView.findViewById(R.id.dateTextView);
+            date.setText(startMonthTxt + " " + startDay + ", " + startYear);
+
+            TextView type = aView.findViewById(R.id.typeTextView);
+            String apptType = dentistAppts.getString(dentistAppts.getColumnIndex("AppointmentType"));
+            if (apptType.equals("Other")) {
+                //type.setText(apptType + "- With: " + assistant);  // TODO: Attempt to chain queries to display the assistant's name.
+                type.setText(apptType);
+            }
+            else {
+                type.setText(apptType);
+            }
+
+            TextView loc = aView.findViewById(R.id.clinicRoomTextView);
+            String clinicName = dentistAppts.getString(dentistAppts.getColumnIndex("AppointmentClinicName"));
+            String roomNumber = dentistAppts.getString(dentistAppts.getColumnIndex("AppointRoomNumber"));
+            loc.setText(clinicName + " - Room " + roomNumber);
+
+            Button viewCancelButton = (Button) aView.findViewById(R.id.cancelButton);
+            viewCancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getActivity(), "Cancel button is cancelled ;-(", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            apptList.addView(aView, apptList.getChildCount());
+
+            dentistAppts.moveToNext();
+        }
+    }
+
+    public String getMonth(int month){
+        return new DateFormatSymbols().getMonths()[month-1];
     }
 
     private void setFilterButtonListener(View view){
@@ -121,44 +189,6 @@ public class DentistViewFragment extends Fragment {
 
     }
 
-    private void initializeInflaterButton(View view){
-        Button inflateButton = (Button) view.findViewById(R.id.dentistInflateButton);
-        inflateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                performTestInflation(v.getRootView(), apptList.getChildCount());
-            }
-        });
-    }
-
-    private void performTestInflation(View view, int count){
-        LayoutInflater li = getActivity().getLayoutInflater();
-        final View aView = li.inflate(R.layout.layout_test, null);
-
-        // Alternate between setting the test-inflated view as cleaning/other.
-        TextView title = aView.findViewById(R.id.timeTextView);
-        TextView apptType = aView.findViewById(R.id.typeTextView);
-        if (count % 2 == 0){
-            apptType.setText("Other");
-            title.setText("12:0" + count + " - 2h");
-        }
-        else {
-            apptType.setText("Cleaning");
-            title.setText("12:0" + count + " - 1h");
-        }
-
-        Button viewCancelButton = (Button) aView.findViewById(R.id.cancelButton);
-        viewCancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                apptList.removeView(aView);
-                // TODO: Perform a DB operation to also remove the appt from the list by the ID specified in the view.
-            }
-        });
-
-        apptList.addView(aView, apptList.getChildCount());
-
-    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
