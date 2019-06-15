@@ -9,15 +9,16 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 public class DentistSignInActivity extends AppCompatActivity {
-
-    DBManager dbManager = null;
+    DatabaseAdapter dbAdapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dentist_sign_in);
         setBackButtonListener();
-        dbManager = new DBManager(this);
+        dbAdapter = new DatabaseAdapter(this);
+        dbAdapter.createDatabase();
+        dbAdapter.open();
     }
 
     private void setBackButtonListener(){
@@ -34,10 +35,10 @@ public class DentistSignInActivity extends AppCompatActivity {
         EditText inputSINField = (EditText) findViewById(R.id.dentistSINBox);
         try {
             String inputID = inputSINField.getText().toString();
-            boolean successfulSignIn = dbManager.signInPatient(inputID);
+            boolean successfulSignIn = dbAdapter.signInPatient(inputID);
 
             // TODO: Replace once an existing populated database can be used.
-            if (/*!successfulSignIn*/ !inputID.equals("2")){
+            if (!successfulSignIn){
                 throw new NumberFormatException();
             }
             else {

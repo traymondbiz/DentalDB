@@ -10,14 +10,16 @@ import android.widget.Toast;
 
 public class PatientSignInActivity extends AppCompatActivity {
 
-    DBManager dbManager = null;
+    DatabaseAdapter dbAdapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_sign_in);
         setBackButtonListener();
-        dbManager = new DBManager(this);
+        dbAdapter = new DatabaseAdapter(this);
+        dbAdapter.createDatabase();
+        dbAdapter.open();
     }
 
     private void setBackButtonListener(){
@@ -32,12 +34,12 @@ public class PatientSignInActivity extends AppCompatActivity {
 
     public void attemptSignIn(View view){
         EditText inputIDField = (EditText) findViewById(R.id.patientIDBox);
+        String inputID = inputIDField.getText().toString();
         try {
-            String inputID = inputIDField.getText().toString();
-            boolean successfulSignIn = dbManager.signInPatient(inputID);
+            boolean successfulSignIn = dbAdapter.signInPatient(inputID);
 
             // TODO: Replace once an existing populated database can be used.
-            if (/*!successfulSignIn*/ !inputID.equals("1")){
+            if (!successfulSignIn){
                 throw new NumberFormatException();
             }
             else {
@@ -48,7 +50,7 @@ public class PatientSignInActivity extends AppCompatActivity {
             }
         }
         catch (NumberFormatException e){
-            Toast.makeText(PatientSignInActivity.this, "ERROR: Invalid ID. (Try '1')", Toast.LENGTH_LONG).show();
+            //Toast.makeText(PatientSignInActivity.this, "ERROR: " + inputID + " Invalid ID. (Try '100', '200', '300')", Toast.LENGTH_LONG).show();
         }
     }
 }
