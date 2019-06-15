@@ -17,8 +17,8 @@ import java.io.OutputStream;
 public class DBManager extends SQLiteOpenHelper {
 
     // Define the database name.
-    public static final String DB_NAME = "dental.db";
     private static String DB_PATH = "";
+    private static String DB_NAME = "dental.db";
     private SQLiteDatabase db;
     private final Context mainContext;
     
@@ -26,8 +26,6 @@ public class DBManager extends SQLiteOpenHelper {
         super(context, DB_NAME, null, 1);
         DB_PATH = context.getApplicationInfo().dataDir + "/databases/";
         this.mainContext = context;
-
-        db = this.getWritableDatabase();
     }
 
     // Attempts to create the database if it doesn't exist yet.
@@ -39,14 +37,10 @@ public class DBManager extends SQLiteOpenHelper {
 
             try {
                 copyDatabase();
-                Toast.makeText(mainContext, "Created a new copy of the database using assets.", Toast.LENGTH_LONG).show();
             }
             catch (IOException e){
-                Toast.makeText(mainContext, "Error in attempting to copy database from assets.", Toast.LENGTH_LONG).show();
+                throw new Error("Error when trying to copy database.");
             }
-        }
-        else {
-            Toast.makeText(mainContext, "Using existing database.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -74,7 +68,7 @@ public class DBManager extends SQLiteOpenHelper {
     // Returns true if database successfully opened.
     public boolean openDatabase() throws SQLException{
         String path = DB_PATH + DB_NAME;
-        db = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.NO_LOCALIZED_COLLATORS);
+        db = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.CREATE_IF_NECESSARY);
         return db != null;
     }
 
@@ -94,6 +88,12 @@ public class DBManager extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Do nothing.
+    }
+
+    @Override
+    public void onOpen(SQLiteDatabase db){
+        super.onOpen(db);
+        db.disableWriteAheadLogging();
     }
 
 //    // Returns true if patient ID exists in database

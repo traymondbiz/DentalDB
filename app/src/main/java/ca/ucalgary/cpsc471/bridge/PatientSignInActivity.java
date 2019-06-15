@@ -19,7 +19,6 @@ public class PatientSignInActivity extends AppCompatActivity {
         setBackButtonListener();
         dbAdapter = new DatabaseAdapter(this);
         dbAdapter.createDatabase();
-        dbAdapter.open();
     }
 
     private void setBackButtonListener(){
@@ -36,7 +35,9 @@ public class PatientSignInActivity extends AppCompatActivity {
         EditText inputIDField = (EditText) findViewById(R.id.patientIDBox);
         String inputID = inputIDField.getText().toString();
         try {
+            dbAdapter.open();
             boolean successfulSignIn = dbAdapter.signInPatient(inputID);
+            dbAdapter.close();
 
             // TODO: Replace once an existing populated database can be used.
             if (!successfulSignIn){
@@ -50,7 +51,7 @@ public class PatientSignInActivity extends AppCompatActivity {
             }
         }
         catch (NumberFormatException e){
-            //Toast.makeText(PatientSignInActivity.this, "ERROR: " + inputID + " Invalid ID. (Try '100', '200', '300')", Toast.LENGTH_LONG).show();
+            Toast.makeText(PatientSignInActivity.this, "ERROR: " + inputID + " Invalid ID. (Try '100', '200', '300')", Toast.LENGTH_LONG).show();
         }
     }
 }

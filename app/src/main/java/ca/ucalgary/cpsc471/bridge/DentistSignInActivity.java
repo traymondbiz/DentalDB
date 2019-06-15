@@ -18,7 +18,6 @@ public class DentistSignInActivity extends AppCompatActivity {
         setBackButtonListener();
         dbAdapter = new DatabaseAdapter(this);
         dbAdapter.createDatabase();
-        dbAdapter.open();
     }
 
     private void setBackButtonListener(){
@@ -35,7 +34,9 @@ public class DentistSignInActivity extends AppCompatActivity {
         EditText inputSINField = (EditText) findViewById(R.id.dentistSINBox);
         try {
             String inputID = inputSINField.getText().toString();
-            boolean successfulSignIn = dbAdapter.signInPatient(inputID);
+            dbAdapter.open();
+            boolean successfulSignIn = dbAdapter.signInDentist(inputID);
+            dbAdapter.close();
 
             // TODO: Replace once an existing populated database can be used.
             if (!successfulSignIn){
@@ -49,7 +50,7 @@ public class DentistSignInActivity extends AppCompatActivity {
             }
         }
         catch (NumberFormatException e){
-            Toast.makeText(DentistSignInActivity.this, "ERROR: Invalid ID. (Try '2')", Toast.LENGTH_LONG).show();
+            Toast.makeText(DentistSignInActivity.this, "ERROR: Invalid ID. (Try '444 444 444')", Toast.LENGTH_LONG).show();
         }
     }
 }

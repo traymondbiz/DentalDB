@@ -116,17 +116,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/warningImageView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:background="#FFFFFF"
-        android:onClick="jumpstartDatabase"
-        android:text="Jumpstart Database"
-        android:textColor="@color/colorPrimary"
+        android:background="#9E2323"
+        android:onClick="alertDialog"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/stat_notify_error" />
 
 </android.support.constraint.ConstraintLayout>
