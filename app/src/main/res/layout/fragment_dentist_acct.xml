@@ -137,7 +137,7 @@
 
     <TextView
         android:id="@+id/textView7"
-        android:layout_width="164dp"
+        android:layout_width="250dp"
         android:layout_height="28dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
@@ -150,7 +150,7 @@
 
     <TextView
         android:id="@+id/textView6"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"

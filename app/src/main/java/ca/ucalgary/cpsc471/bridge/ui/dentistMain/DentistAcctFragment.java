@@ -92,25 +92,51 @@ public class DentistAcctFragment extends Fragment {
         TextView sex = (TextView) view.findViewById(R.id.sexTextView);
 
         // TODO: Dentist is a specialization of employee. Some of these queries (like Salary) may require extra set-up.
-        sex.setText(dentistData.getString(dentistData.getColumnIndex("AssignedRoom")));
-//        name.setText(dentistData.getString(dentistData.getColumnIndex("FirstName")) +
-//                dentistData.getString(dentistData.getColumnIndex("MiddleName")) +
-//                dentistData.getString(dentistData.getColumnIndex("LastName")));
-//
-//        clinic.setText(dentistData.getString(dentistData.getColumnIndex("AppointedClinicName")));
-//
-//        streetUnit.setText(dentistData.getString(dentistData.getColumnIndex("Unit")) +
-//                dentistData.getString(dentistData.getColumnIndex("StreetNumber")));
-//
-//        cityProv.setText(dentistData.getString(dentistData.getColumnIndex("City")) + ", " +
-//                dentistData.getString(dentistData.getColumnIndex("Province")) + " - " +
-//                dentistData.getString(dentistData.getColumnIndex("PostalCode")));
-//
-//        dob.setText(dentistData.getString(dentistData.getColumnIndex("DateOfBirth")));
-//
-//        salary.setText(dentistData.getString(dentistData.getColumnIndex("Salary")));
-//
-//        sex.setText(dentistData.getString(dentistData.getColumnIndex("Sex")));
+        String firstName = dentistData.getString(dentistData.getColumnIndex("FirstName"));
+        String middleName = dentistData.getString(dentistData.getColumnIndex("MiddleName"));
+        String lastName = dentistData.getString(dentistData.getColumnIndex("LastName"));
+
+        if (firstName.equals("NULL")){
+            firstName = "";
+        }
+        else {
+            firstName = firstName.concat(" ");
+        }
+        if (middleName.equals("NULL")){
+            middleName = "";
+        }
+        else {
+            middleName = middleName.concat(" ");
+        }
+        if (lastName.equals("NULL")){
+            lastName = "";
+        }
+        name.setText(firstName + middleName + lastName);
+
+        clinic.setText(dentistData.getString(dentistData.getColumnIndex("AppointedClinicName")));
+
+        String unit = dentistData.getString(dentistData.getColumnIndex("Unit"));
+        String streetNumber = dentistData.getString(dentistData.getColumnIndex("StreetNumber"));
+        if (unit.equals("NULL")){
+            unit = "";
+        }
+        else {
+            unit = unit.concat(" ");
+        }
+        if (streetNumber.equals("NULL")){
+            streetNumber = "";
+        }
+        streetUnit.setText(unit + streetNumber);
+
+        cityProv.setText(dentistData.getString(dentistData.getColumnIndex("City")) + ", " +
+                dentistData.getString(dentistData.getColumnIndex("Province")) + " - " +
+                dentistData.getString(dentistData.getColumnIndex("PostalCode")));
+
+        dob.setText(dentistData.getString(dentistData.getColumnIndex("DateOfBirth")));
+
+        salary.setText(dentistData.getString(dentistData.getColumnIndex("Salary")));
+
+        sex.setText(dentistData.getString(dentistData.getColumnIndex("Sex")));
 
 
     }

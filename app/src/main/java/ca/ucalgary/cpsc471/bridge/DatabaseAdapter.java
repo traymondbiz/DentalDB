@@ -70,7 +70,7 @@ public class DatabaseAdapter {
 
     // Returns cursor with required dentist info
     public Cursor viewDentistInfo(String SIN){
-        return db.rawQuery("SELECT * from dentist WHERE SIN = ?",new String[] { SIN });
+        return db.rawQuery("SELECT * FROM employee INNER JOIN dentist ON employee.SIN = dentist.SIN WHERE dentist.SIN = ?",new String[] { SIN });
     }
 
     // Returns cursor with patient's appointments
