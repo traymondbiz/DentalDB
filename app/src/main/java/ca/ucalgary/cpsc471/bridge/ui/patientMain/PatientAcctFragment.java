@@ -79,6 +79,8 @@ public class PatientAcctFragment extends Fragment {
         return view;
     }
 
+    // TODO: Make the code not so ugly. Also consider converting DOB text to plain english like with View-Appts.
+    // TODO: Look into updating StreetNumber into plain old StreetAddress so it looks better.
     private void populateViewWithValues(View view){
         PatientMainActivity mainActivity = (PatientMainActivity) getActivity();
         Cursor patientData = dbAdapter.viewPatientInfo(mainActivity.getPatientID());
@@ -92,14 +94,41 @@ public class PatientAcctFragment extends Fragment {
         TextView insuranceID = (TextView) view.findViewById(R.id.insuranceTextView);
         TextView sex = (TextView) view.findViewById(R.id.sexTextView);
 
-        name.setText(patientData.getString(patientData.getColumnIndex("FirstName")) +
-                patientData.getString(patientData.getColumnIndex("MiddleName")) +
-                patientData.getString(patientData.getColumnIndex("LastName")));
+        String firstName = patientData.getString(patientData.getColumnIndex("FirstName"));
+        String middleName = patientData.getString(patientData.getColumnIndex("MiddleName"));
+        String lastName = patientData.getString(patientData.getColumnIndex("LastName"));
 
-        id.setText(patientData.getString(patientData.getColumnIndex("ID")));
+        if (firstName.equals("NULL")){
+            firstName = "";
+        }
+        else {
+            firstName = firstName.concat(" ");
+        }
+        if (middleName.equals("NULL")){
+            middleName = "";
+        }
+        else {
+            middleName = middleName.concat(" ");
+        }
+        if (lastName.equals("NULL")){
+            lastName = "";
+        }
+        name.setText(firstName + middleName + lastName);
 
-        streetUnit.setText(patientData.getString(patientData.getColumnIndex("Unit")) +
-                patientData.getString(patientData.getColumnIndex("StreetNumber")));
+        id.setText("ID: " + patientData.getString(patientData.getColumnIndex("ID")));
+
+        String unit = patientData.getString(patientData.getColumnIndex("Unit"));
+        String streetNumber = patientData.getString(patientData.getColumnIndex("StreetNumber"));
+        if (unit.equals("NULL")){
+            unit = "";
+        }
+        else {
+            unit = unit.concat(" ");
+        }
+        if (streetNumber.equals("NULL")){
+            streetNumber = "";
+        }
+        streetUnit.setText(unit + streetNumber);
 
         cityProv.setText(patientData.getString(patientData.getColumnIndex("City")) + ", " +
                 patientData.getString(patientData.getColumnIndex("Province")) + " - " +

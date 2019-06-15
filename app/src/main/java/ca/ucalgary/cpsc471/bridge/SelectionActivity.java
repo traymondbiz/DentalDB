@@ -34,7 +34,7 @@ public class SelectionActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle("Warning: Can't sign in?");
-        builder.setMessage("Android 9+ devices with need to disable 'Automatic Restore', or perform a one-time clearing of the application's cache and storage.");
+        builder.setMessage("Android 9+ devices will need to disable 'Automatic Restore', or perform a one-time clearing of the application's cache and storage.");
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
