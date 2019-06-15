@@ -82,6 +82,7 @@ public class PatientAcctFragment extends Fragment {
     private void populateViewWithValues(View view){
         PatientMainActivity mainActivity = (PatientMainActivity) getActivity();
         Cursor patientData = dbAdapter.viewPatientInfo(mainActivity.getPatientID());
+        patientData.moveToFirst();
 
         TextView name = (TextView) view.findViewById(R.id.nameEditText);
         TextView id = (TextView) view.findViewById(R.id.patientID);

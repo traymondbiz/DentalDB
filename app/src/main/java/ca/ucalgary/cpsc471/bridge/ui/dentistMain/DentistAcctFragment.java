@@ -81,6 +81,7 @@ public class DentistAcctFragment extends Fragment {
     private void populateViewWithValues(View view){
         DentistMainActivity mainActivity = (DentistMainActivity) getActivity();
         Cursor dentistData = dbAdapter.viewDentistInfo(mainActivity.getDentistID());
+        dentistData.moveToFirst();
 
         TextView name = (TextView) view.findViewById(R.id.textView6);
         TextView clinic = (TextView) view.findViewById(R.id.textView7);
@@ -91,24 +92,25 @@ public class DentistAcctFragment extends Fragment {
         TextView sex = (TextView) view.findViewById(R.id.sexTextView);
 
         // TODO: Dentist is a specialization of employee. Some of these queries (like Salary) may require extra set-up.
-        name.setText(dentistData.getString(dentistData.getColumnIndex("FirstName")) +
-                dentistData.getString(dentistData.getColumnIndex("MiddleName")) +
-                dentistData.getString(dentistData.getColumnIndex("LastName")));
-
-        clinic.setText(dentistData.getString(dentistData.getColumnIndex("AppointedClinicName")));
-
-        streetUnit.setText(dentistData.getString(dentistData.getColumnIndex("Unit")) +
-                dentistData.getString(dentistData.getColumnIndex("StreetNumber")));
-
-        cityProv.setText(dentistData.getString(dentistData.getColumnIndex("City")) + ", " +
-                dentistData.getString(dentistData.getColumnIndex("Province")) + " - " +
-                dentistData.getString(dentistData.getColumnIndex("PostalCode")));
-
-        dob.setText(dentistData.getString(dentistData.getColumnIndex("DateOfBirth")));
-
-        salary.setText(dentistData.getString(dentistData.getColumnIndex("Salary")));
-
-        sex.setText(dentistData.getString(dentistData.getColumnIndex("Sex")));
+        sex.setText(dentistData.getString(dentistData.getColumnIndex("AssignedRoom")));
+//        name.setText(dentistData.getString(dentistData.getColumnIndex("FirstName")) +
+//                dentistData.getString(dentistData.getColumnIndex("MiddleName")) +
+//                dentistData.getString(dentistData.getColumnIndex("LastName")));
+//
+//        clinic.setText(dentistData.getString(dentistData.getColumnIndex("AppointedClinicName")));
+//
+//        streetUnit.setText(dentistData.getString(dentistData.getColumnIndex("Unit")) +
+//                dentistData.getString(dentistData.getColumnIndex("StreetNumber")));
+//
+//        cityProv.setText(dentistData.getString(dentistData.getColumnIndex("City")) + ", " +
+//                dentistData.getString(dentistData.getColumnIndex("Province")) + " - " +
+//                dentistData.getString(dentistData.getColumnIndex("PostalCode")));
+//
+//        dob.setText(dentistData.getString(dentistData.getColumnIndex("DateOfBirth")));
+//
+//        salary.setText(dentistData.getString(dentistData.getColumnIndex("Salary")));
+//
+//        sex.setText(dentistData.getString(dentistData.getColumnIndex("Sex")));
 
 
     }
