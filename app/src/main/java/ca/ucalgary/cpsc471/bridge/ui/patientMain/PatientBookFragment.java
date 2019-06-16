@@ -9,10 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import ca.ucalgary.cpsc471.bridge.DatabaseAdapter;
+import ca.ucalgary.cpsc471.bridge.PatientMainActivity;
 import ca.ucalgary.cpsc471.bridge.R;
 
 
@@ -27,6 +33,7 @@ import ca.ucalgary.cpsc471.bridge.R;
 public class PatientBookFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    DatabaseAdapter dbAdapter = null;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -35,6 +42,7 @@ public class PatientBookFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private String selectedDate = "";
 
     public PatientBookFragment() {
         // Required empty public constructor
@@ -70,10 +78,28 @@ public class PatientBookFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_patient_book, container, false);
+        dbAdapter = new DatabaseAdapter(getActivity());
+        dbAdapter.createDatabase();
         setApptSpinnerContent(view);
         setTimeSpinnerContent(view);
         setApptButtonListener(view);
+        setCalenderViewListener(view);
         return view;
+    }
+
+    // Sets up the Calender View, which will update the selected date on interaction.
+    private void setCalenderViewListener(View view){
+        CalendarView calendarView = view.findViewById(R.id.patientBookCalenderView);
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(year, month, dayOfMonth);
+                long dateInMillis = calendar.getTimeInMillis();
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                selectedDate = simpleDateFormat.format(dateInMillis);
+            }
+        });
     }
 
     // Sets up the Spinner in PatientBookFragment's layout.
@@ -105,30 +131,36 @@ public class PatientBookFragment extends Fragment {
                 TextView selectedAppt = (TextView) apptSpin.getSelectedView();
                 String apptResult = selectedAppt.getText().toString();
 
-                // Get the appointment time.
+                // Get the appointment start time.
                 Spinner timeSpin = v.getRootView().findViewById(R.id.patientTimeSpinner);
                 TextView selectedTime = (TextView) timeSpin.getSelectedView();
                 String timeResult = selectedTime.getText().toString();
 
-                if (apptResult.equals("Cleaning")){
-                    Toast.makeText(getActivity(), "Cleaning @ " + timeResult, Toast.LENGTH_SHORT).show();
-                    // TODO: Have the DB add a cleaning appointment.
-                        // Auto-increment an appointment ID.
-                        // Start time = selected time + date; End time = 1 hour from now.
-                        // Clinic = Dentist's clinic; Room = Hygienist's room; Hygienist's SIN = Patient's assigned hygienist.
-                        // Patient ID = The patient's ID.
+                // Get the appointment date.
+                // TODO:    Install CalendarView separately and set up its listener to update a class-wide string both initially and whenever the date is changed.
+                //          Then, on button press, get the string, the date, concatenate them, and perform the query.
+                //          Check the resulting boolean and then release a toast. Make sure the View-Appt updates accordingly to that. Check the Dentist's view as well.
+
+                // If no date is selected (ie. The user presses Book Appointment without interacting with the CalendarView), then pick the current date.
+                if (selectedDate.equals("")){
+                    CalendarView calendarView = v.getRootView().findViewById(R.id.patientBookCalenderView);
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                    selectedDate = simpleDateFormat.format(calendarView.getDate());
                 }
-                else if (apptResult.equals("Other")){
-                    Toast.makeText(getActivity(), "Other @ " + timeResult, Toast.LENGTH_SHORT).show();
-                    // TODO: Have the DB add a cleaning appointment.
-                    // Auto-increment an appointment ID.
-                    // Start time = selected time + date; End time = 2 hours from now.
-                    // Clinic = Dentist's clinic; Room = Dentist's room; Dentist's SIN = Patient's assigned dentist; Assistant's SIN = Dentist's assigned assistant SIN
-                    // Patient ID = The patient's ID.
+
+                PatientMainActivity patientMainActivity = (PatientMainActivity)getActivity();
+                String patientID = patientMainActivity.getPatientID();
+                timeResult = timeResult.concat("-" + selectedDate);
+
+                dbAdapter.open();
+                boolean successfulBookResult = dbAdapter.bookAppointment(patientID, timeResult, apptResult, null);
+                dbAdapter.close();
+
+                if (successfulBookResult){
+                    Toast.makeText(getActivity(), "Appointment " + apptResult + " successfully booked for: " + timeResult, Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    // Should never happen. (A different option must've been added.)
-                    Toast.makeText(getActivity(), "Unexpected Spinner selection.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Failed to book appointment. (Schedule Overlap.)", Toast.LENGTH_SHORT).show();
                 }
             }
         });
