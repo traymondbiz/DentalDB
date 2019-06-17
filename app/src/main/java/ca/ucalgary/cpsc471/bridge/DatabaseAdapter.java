@@ -85,6 +85,9 @@ public class DatabaseAdapter {
 
     //Returns true if appointment is booked
     public boolean bookAppointment(String patientID,String startTime, String appointmentType,String appointmentClinicName){
+        if((db.rawQuery("SELECT * from patient WHERE ID = ?",new String[] { patientID })).getCount()==0){
+            return false;
+        }
         String assignedSIN;
         String assignedClinic;
         String roomNumber;
