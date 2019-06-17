@@ -92,7 +92,7 @@ public class DatabaseAdapter {
         Cursor res;
         String assignedClinic;
         String roomNumber;
-        if(appointmentType == "cleaning"){
+        if(appointmentType.equals("Cleaning")){
             res = db.rawQuery("SELECT AssignedHygienistSIN from patient WHERE ID = ?",new String[] { patientID });
             res.moveToFirst();
             assignedSIN = res.getString(0);
@@ -122,7 +122,7 @@ public class DatabaseAdapter {
             appointmentContentValues.put("AppointRoomNumber",roomNumber);
             appointmentContentValues.put("AppointPatientID", patientID);
             db.insert("appointment", null, appointmentContentValues);
-            if(appointmentType=="cleaning"){
+            if(appointmentType.equals("Cleaning")){
                 ContentValues cleaningContentValues = new ContentValues();
                 cleaningContentValues.put("ID",(db.rawQuery("SELECT ID from appointment WHERE AppointPatientID = ? AND StartTime = ?",new String[] { patientID,startTime })).getString(0));
                 cleaningContentValues.put("AttendingHygienist",assignedSIN);
@@ -144,7 +144,7 @@ public class DatabaseAdapter {
     //Returns true if appointment available
     public boolean appointmentAvailability(String startTime, String appointmentType, String assignedSIN){
         Cursor res;
-        if (appointmentType == "cleaning"){
+        if(appointmentType.equals("Cleaning")){
             res = db.rawQuery("SELECT * from appointment INNER JOIN cleaning ON appointment.ID = cleaning.ID WHERE StartTime = ? AND AttendingHygienistSIN = ?",new String[] { startTime, assignedSIN });
         }
         else {
@@ -156,7 +156,7 @@ public class DatabaseAdapter {
     }
         //Returns true if appointment is cancelled
     public boolean cancelAppointment(String appointmentID,String appointmentType){
-        if(appointmentType == "cleaning"){
+        if(appointmentType.equals("Cleaning")){
             db.delete("cleaning", "ID = ?",new String[] {appointmentID});
         }
         else{

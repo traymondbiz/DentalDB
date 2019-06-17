@@ -148,7 +148,7 @@ public class PatientBookFragment extends Fragment {
                     Toast.makeText(getActivity(), "Appointment " + apptResult + " successfully booked for: " + timeResult, Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Toast.makeText(getActivity(), "Failed to book appointment. (Schedule Overlap.)", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Failed to book appointment.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
