@@ -5,12 +5,13 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import ca.ucalgary.cpsc471.bridge.DBManager;
 import ca.ucalgary.cpsc471.bridge.DatabaseAdapter;
 import ca.ucalgary.cpsc471.bridge.DentistMainActivity;
 import ca.ucalgary.cpsc471.bridge.R;
@@ -75,7 +76,20 @@ public class DentistAcctFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_dentist_acct, container, false);
 
         populateViewWithValues(view);
+        setDentistEditButton(view);
         return view;
+    }
+
+    private void setDentistEditButton(View view){
+        ImageView dentistEditButton = view.findViewById(R.id.dentistEditButton);
+        dentistEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.dentistAcctCL, DentistAcctEditFragment.newInstance(null, null));
+                ft.commit();
+            }
+        });
     }
 
     private void populateViewWithValues(View view){

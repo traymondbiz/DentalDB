@@ -5,12 +5,13 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import ca.ucalgary.cpsc471.bridge.DBManager;
 import ca.ucalgary.cpsc471.bridge.DatabaseAdapter;
 import ca.ucalgary.cpsc471.bridge.PatientMainActivity;
 import ca.ucalgary.cpsc471.bridge.R;
@@ -37,9 +38,11 @@ public class PatientAcctFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+
     public PatientAcctFragment() {
         // Required empty public constructor
     }
+
 
     /**
      * Use this factory method to create a new instance of
@@ -59,6 +62,7 @@ public class PatientAcctFragment extends Fragment {
         return fragment;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +72,7 @@ public class PatientAcctFragment extends Fragment {
         }
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         dbAdapter = new DatabaseAdapter(getActivity());
@@ -76,17 +81,29 @@ public class PatientAcctFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_patient_acct, container, false);
 
         populateViewWithValues(view);
+        setPatientEditButton(view);
         return view;
     }
 
-    // TODO: Make the code not so ugly. Also consider converting DOB text to plain english like with View-Appts.
-    // TODO: Look into updating StreetNumber into plain old StreetAddress so it looks better.
+    private void setPatientEditButton(View view){
+        ImageView patientEditButton = view.findViewById(R.id.patientEditButton);
+        patientEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.patientAcctCL, PatientAcctEditFragment.newInstance(null, null));
+                ft.commit();
+            }
+        });
+    }
+
+
     private void populateViewWithValues(View view){
         PatientMainActivity mainActivity = (PatientMainActivity) getActivity();
         Cursor patientData = dbAdapter.viewPatientInfo(mainActivity.getPatientID());
         patientData.moveToFirst();
 
-        TextView name = (TextView) view.findViewById(R.id.nameEditText);
+        TextView name = (TextView) view.findViewById(R.id.patientNameEditText);
         TextView id = (TextView) view.findViewById(R.id.patientID);
         TextView streetUnit = (TextView) view.findViewById(R.id.streetUnitTextView);
         TextView cityProv = (TextView) view.findViewById(R.id.cityProvincePostalTextView);
@@ -154,11 +171,13 @@ public class PatientAcctFragment extends Fragment {
         }
     }
 
+
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
+
 
     /**
      * This interface must be implemented by activities that contain this

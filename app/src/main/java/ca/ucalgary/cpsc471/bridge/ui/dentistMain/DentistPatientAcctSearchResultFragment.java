@@ -1,28 +1,24 @@
-package ca.ucalgary.cpsc471.bridge.ui.patientMain;
+package ca.ucalgary.cpsc471.bridge.ui.dentistMain;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
-import ca.ucalgary.cpsc471.bridge.DatabaseAdapter;
 import ca.ucalgary.cpsc471.bridge.R;
-
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link PatientAcctEditFragment.OnFragmentInteractionListener} interface
+ * {@link DentistPatientAcctSearchResultFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link PatientAcctEditFragment#newInstance} factory method to
+ * Use the {@link DentistPatientAcctSearchResultFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PatientAcctEditFragment extends Fragment {
+public class DentistPatientAcctSearchResultFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -33,9 +29,8 @@ public class PatientAcctEditFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-    DatabaseAdapter dbAdapter = null;
 
-    public PatientAcctEditFragment() {
+    public DentistPatientAcctSearchResultFragment() {
         // Required empty public constructor
     }
 
@@ -45,11 +40,11 @@ public class PatientAcctEditFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment PatientAcctEditFragment.
+     * @return A new instance of fragment DentistPatientAcctSearchResultFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PatientAcctEditFragment newInstance(String param1, String param2) {
-        PatientAcctEditFragment fragment = new PatientAcctEditFragment();
+    public static DentistPatientAcctSearchResultFragment newInstance(String param1, String param2) {
+        DentistPatientAcctSearchResultFragment fragment = new DentistPatientAcctSearchResultFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -67,43 +62,10 @@ public class PatientAcctEditFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        dbAdapter = new DatabaseAdapter(getActivity());
-        dbAdapter.createDatabase();
-        dbAdapter.open();
-        View view = inflater.inflate(R.layout.fragment_patient_acct_edit, container, false);
-        setPatientCancelButton(view);
-        setPatientSaveButton(view);
-        // Populate view.
-        return view;
-    }
-
-
-    private void setPatientCancelButton(View view){
-        ImageView patientCancelButton = view.findViewById(R.id.patientEditCancel);
-        patientCancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.patientAcctEditCL, PatientAcctFragment.newInstance(null, null));
-                ft.commit();
-            }
-        });
-    }
-
-    private void setPatientSaveButton(View view){
-        ImageView patientSaveButton = view.findViewById(R.id.patientEditSave);
-        patientSaveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // TODO: Perform database operations.
-
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.patientAcctEditCL, PatientAcctFragment.newInstance(null, null));
-                ft.commit();
-            }
-        });
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_dentist_patient_acct_search_result, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

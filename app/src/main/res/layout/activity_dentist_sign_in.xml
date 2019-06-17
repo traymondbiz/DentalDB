@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dentistSignInCL"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DentistSignInActivity">
@@ -21,16 +22,14 @@
         android:layout_width="253dp"
         android:layout_height="241dp"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.373"
+        app:layout_constraintTop_toBottomOf="@+id/dentistSignInPrompt"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/tooth" />
 
     <TextView
@@ -38,11 +37,8 @@
         android:layout_width="253dp"
         android:layout_height="28dp"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="152dp"
+        android:layout_marginTop="96dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
         android:gravity="center"
         android:text="@string/enter_dentist_sin"
         android:textColor="#434343"
@@ -50,7 +46,6 @@
         android:textSize="18sp"
         android:typeface="normal"
         app:fontFamily="serif"
-        app:layout_constraintBottom_toTopOf="@+id/dentistSignInLogo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -82,10 +77,26 @@
         android:layout_marginRight="16dp"
         android:ems="10"
         android:hint="@string/dentist_sin"
+        android:importantForAutofill="no"
         android:inputType="number"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dentistSignInLogo"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toBottomOf="@+id/dentistSignInLogo" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:text="Sample SINs\n---\n444444444\n555555555"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/patientSignInButton" />
 </android.support.constraint.ConstraintLayout>
