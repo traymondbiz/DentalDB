@@ -4,10 +4,15 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import ca.ucalgary.cpsc471.bridge.DatabaseAdapter;
 import ca.ucalgary.cpsc471.bridge.R;
 
 /**
@@ -19,16 +24,13 @@ import ca.ucalgary.cpsc471.bridge.R;
  * create an instance of this fragment.
  */
 public class DentistPatientAcctSearchFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    DatabaseAdapter dbAdapter = null;
 
     public DentistPatientAcctSearchFragment() {
         // Required empty public constructor
@@ -62,10 +64,36 @@ public class DentistPatientAcctSearchFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dentist_acct_search, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        dbAdapter = new DatabaseAdapter(getActivity());
+        dbAdapter.createDatabase();
+        View view = inflater.inflate(R.layout.fragment_dentist_acct_search, container, false);
+        setViewButtonListener(view);
+        return view;
+    }
+
+    private void setViewButtonListener(View view){
+        final Button viewButton = view.findViewById(R.id.dentistViewButton);
+        viewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView patientIDSearch = v.getRootView().findViewById(R.id.dentistPatientIDEditText);
+                String patientIDResult = patientIDSearch.getText().toString();
+                dbAdapter.open();
+                boolean validPatientID = dbAdapter.signInPatient(patientIDResult);
+                dbAdapter.close();
+
+                if (validPatientID){
+                    viewButton.setVisibility(View.INVISIBLE);
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.replace(R.id.dentistAcctSearchCL, DentistPatientAcctSearchResultFragment.newInstance(patientIDResult, null));
+                    ft.commitAllowingStateLoss();
+                }
+                else {
+                    Toast.makeText(getActivity(), "Invalid patient ID.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event

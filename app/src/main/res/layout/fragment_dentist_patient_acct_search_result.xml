@@ -5,6 +5,7 @@
     android:id="@+id/dentistPatientAcctSearchResultCL"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".ui.dentistMain.DentistPatientAcctSearchResultFragment">
 
     <ScrollView
@@ -158,7 +159,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/dentistAcctSearchResultReturnButton"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginStart="32dp"

@@ -72,7 +72,6 @@ public class DentistAcctFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         dbAdapter = new DatabaseAdapter(getActivity());
         dbAdapter.createDatabase();
-        dbAdapter.open();
         View view = inflater.inflate(R.layout.fragment_dentist_acct, container, false);
 
         populateViewWithValues(view);
@@ -94,6 +93,7 @@ public class DentistAcctFragment extends Fragment {
 
     private void populateViewWithValues(View view){
         DentistMainActivity mainActivity = (DentistMainActivity) getActivity();
+        dbAdapter.open();
         Cursor dentistData = dbAdapter.viewDentistInfo(mainActivity.getDentistID());
         dentistData.moveToFirst();
 
@@ -151,6 +151,7 @@ public class DentistAcctFragment extends Fragment {
         salary.setText(dentistData.getString(dentistData.getColumnIndex("Salary")));
 
         sex.setText(dentistData.getString(dentistData.getColumnIndex("Sex")));
+        dbAdapter.close();
 
 
     }
