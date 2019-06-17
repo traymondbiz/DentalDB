@@ -37,7 +37,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             fragment = DentistBookFragment.newInstance(null, null);
         }
         else if (position == 2){
-            fragment = DentistPatientAcctSearchFragment.newInstance(null, null);
+            fragment = DentistSearchFragment.newInstance(null, null);
         }
         else if (position == 3){
             fragment = DentistAcctFragment.newInstance(null, null);

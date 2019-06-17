@@ -2,76 +2,246 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/dentistAcctSearchCL"
+    android:id="@+id/dentistSearchMainCL"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".ui.dentistMain.DentistPatientAcctSearchFragment">
+    tools:context=".ui.dentistMain.DentistSearchFragment">
 
-    <ImageView
-        android:id="@+id/dentistSearchAcctLogo"
-        android:layout_width="253dp"
-        android:layout_height="241dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.484"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dentistSearchPrompt"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/tooth" />
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/dentistSearchBarCL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/dentistSearchPrompt"
-        android:layout_width="249dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="147dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:gravity="center"
-        android:text="Enter Patient ID\n to View Profile"
-        android:textColor="#434343"
-        android:textIsSelectable="false"
-        android:textSize="18sp"
-        android:typeface="normal"
-        app:fontFamily="serif"
-        app:layout_constraintBottom_toTopOf="@+id/patientSignInLogo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/dentistClearButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
+            android:background="#FFFFFF"
+            android:text="Clear"
+            android:textColor="#347CDF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/dentistViewButton"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/dentistViewButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="162dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="162dp"
-        android:background="#FFFFFF"
-        android:text="View"
-        android:textColor="#347CDF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dentistPatientIDEditText" />
+        <Button
+            android:id="@+id/dentistViewButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:background="#347CDF"
+            android:text="View"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toStartOf="@+id/dentistClearButton"
+            app:layout_constraintStart_toEndOf="@+id/dentistPatientIDEditText"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/dentistPatientIDEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:ems="10"
-        android:hint="@string/patient_id"
-        android:importantForAutofill="no"
-        android:inputType="number"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dentistSearchAcctLogo" />
+        <EditText
+            android:id="@+id/dentistPatientIDEditText"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:ems="10"
+            android:hint="@string/patient_id"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:visibility="visible"
+            app:layout_constraintEnd_toStartOf="@+id/dentistViewButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/dentistSearchStartCL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter a valid patient ID and\npress View to begin."
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:typeface="serif"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/dentistSearchResultsCL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/dentistSearchResultsSV"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="104dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/dentistSearchResultsLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/dentistSearchNameLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Name:"
+                    android:textColor="#242424"
+                    android:textSize="24sp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:id="@+id/dentistSearchNameResult"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Kane Schmoe"
+                    android:textColor="#5A5A5A"
+                    android:textSize="20sp"
+                    android:typeface="serif" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" />
+
+                <TextView
+                    android:id="@+id/dentistSearchIDLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ID:"
+                    android:textColor="#242424"
+                    android:textSize="24sp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:id="@+id/dentistSearchIDResult"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="11223344"
+                    android:textColor="#5A5A5A"
+                    android:textSize="20sp"
+                    android:typeface="serif" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" />
+
+                <TextView
+                    android:id="@+id/dentistSearchAddrLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Address:"
+                    android:textColor="#242424"
+                    android:textSize="24sp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:id="@+id/dentistSearchStreetUnitResult"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="444 Eldritch Dr, SW"
+                    android:textColor="#5A5A5A"
+                    android:textSize="20sp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:id="@+id/dentistSearchCityProvincePostalResult"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Deadend, Horror - D6I 6E6"
+                    android:textColor="#5A5A5A"
+                    android:textSize="20sp"
+                    android:typeface="serif" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" />
+
+                <TextView
+                    android:id="@+id/dentistSearchDOBLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Date of Birth:"
+                    android:textColor="#242424"
+                    android:textSize="24sp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:id="@+id/dentistSearchDOBResult"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="April 4, 1726"
+                    android:textColor="#5A5A5A"
+                    android:textSize="20sp"
+                    android:typeface="serif" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" />
+
+                <TextView
+                    android:id="@+id/dentistSearchInsuranceLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Insurance No:"
+                    android:textColor="#242424"
+                    android:textSize="24sp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:id="@+id/dentistSearchInsuranceResult"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="426 759 183 676"
+                    android:textColor="#5A5A5A"
+                    android:textSize="20sp"
+                    android:typeface="serif" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" />
+
+                <TextView
+                    android:id="@+id/dentistSearchSexLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Sex:"
+                    android:textColor="#242424"
+                    android:textSize="24sp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:id="@+id/dentistSearchSexResult"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Undead (Previously Male)"
+                    android:textColor="#5A5A5A"
+                    android:textSize="20sp"
+                    android:typeface="serif" />
+
+            </LinearLayout>
+        </ScrollView>
+    </android.support.constraint.ConstraintLayout>
+
 </android.support.constraint.ConstraintLayout>
