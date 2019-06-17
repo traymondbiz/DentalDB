@@ -141,19 +141,6 @@ public class DatabaseAdapter {
             return true;
         return false;
     }
-    //Returns true if appointment is cancelled
-    public boolean cancelAppointment(String appointmentID){
-        String appointmentType = (db.rawQuery("SELECT AppointmentType from appointment WHERE ID = ?",new String[] { appointmentID })).getString(0);
-        if(appointmentType == "cleaning"){
-            db.delete("cleaning", "ID = ?",new String[] {appointmentID});
-        }
-        else{
-            db.delete("other", "ID = ?",new String[] {appointmentID});
-        }
-        db.delete("appointment", "ID = ?",new String[] {appointmentID});
-        return true;
-    }
-
         //Returns true if appointment is cancelled
     public boolean cancelAppointment(String appointmentID){
         String appointmentType = (db.rawQuery("SELECT AppointmentType FROM appointment WHERE ID = ?",new String[] { appointmentID })).getString(0);
