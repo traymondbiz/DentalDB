@@ -2,68 +2,59 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout9"
+    android:id="@+id/patientAcctEditCL"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".ui.patientMain.PatientAcctEditFragment">
 
-    <ImageView
-        android:id="@+id/patientAcctPlaceholderIMG"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="32dp"
-        android:src="@drawable/dentalicon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/nameEditText"
+    <TextView
+        android:id="@+id/patientEditID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="133dp"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:hint="First, Middle, Last Name"
-        android:inputType="text"
-        android:text="John Doe"
+        android:layout_marginEnd="133dp"
+        android:layout_marginBottom="16dp"
+        android:text="EDIT MODE\nID: 11223344"
+        android:textAlignment="center"
         android:textColor="#343434"
         android:textSize="24sp"
         android:typeface="serif"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/patientAcctPlaceholderIMG"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/patientID"
-        android:layout_width="164dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:text="ID: 11223344"
-        android:textColor="#343434"
-        android:textSize="18sp"
-        android:typeface="serif"
-        app:layout_constraintStart_toEndOf="@+id/patientAcctPlaceholderIMG"
-        app:layout_constraintTop_toBottomOf="@+id/nameEditText" />
-
-    <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/patientEditMessage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/patientID"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/patientEditMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Leave blank for un-changed values."
+        android:textColor="@color/textDark"
+        android:typeface="serif"
+        app:layout_constraintBottom_toTopOf="@+id/patientEditScrollView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/patientEditID" />
+
+    <ScrollView
+        android:id="@+id/patientEditScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/patientEditCancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/patientEditMessage">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -71,103 +62,149 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/addrLabel"
+                android:id="@+id/patientEditNameLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name:"
+                android:textColor="#242424"
+                android:textSize="24dp"
+                android:typeface="serif" />
+
+            <EditText
+                android:id="@+id/patientEditFirstName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="First Name"
+                android:inputType="textPersonName"
+                android:textColor="#5A5A5A"
+                android:textSize="20sp"
+                android:typeface="serif" />
+
+            <EditText
+                android:id="@+id/patientEditMiddleName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Middle Name"
+                android:inputType="textPersonName"
+                android:textColor="#5A5A5A"
+                android:textSize="20sp"
+                android:typeface="serif" />
+
+            <EditText
+                android:id="@+id/patientEditLastName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Last Name"
+                android:inputType="textPersonName"
+                android:textColor="#5A5A5A"
+                android:textSize="20sp"
+                android:typeface="serif" />
+
+            <TextView
+                android:id="@+id/patientEditAddressLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Address:"
                 android:textColor="#242424"
-                android:textSize="24sp"
+                android:textSize="24dp"
                 android:typeface="serif" />
 
             <EditText
-                android:id="@+id/streetUnitTextView"
+                android:id="@+id/patientEditStreetNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Unit, StreetNo"
-                android:inputType="text"
-                android:text="2000 Nullville Heights NW"
+                android:ems="10"
+                android:hint="Street Number"
+                android:inputType="textPersonName"
                 android:textColor="#5A5A5A"
                 android:textSize="20sp"
                 android:typeface="serif" />
 
             <EditText
-                android:id="@+id/cityProvincePostalTextView"
+                android:id="@+id/patientEditUnit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="City, Province - Postal Code"
-                android:inputType="text"
-                android:text="Falscity, Nantario - NULL 404"
+                android:ems="10"
+                android:hint="Unit"
+                android:inputType="textPersonName"
                 android:textColor="#5A5A5A"
                 android:textSize="20sp"
                 android:typeface="serif" />
 
-            <Space
+            <EditText
+                android:id="@+id/patientEditPostalCode"
                 android:layout_width="match_parent"
-                android:layout_height="16dp" />
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Postal Code (A1A 1A1)"
+                android:inputType="textPersonName"
+                android:textColor="#5A5A5A"
+                android:textSize="20sp"
+                android:typeface="serif" />
+
+            <EditText
+                android:id="@+id/patientEditCity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="City"
+                android:inputType="textPersonName"
+                android:textColor="#5A5A5A"
+                android:textSize="20sp"
+                android:typeface="serif" />
+
+            <EditText
+                android:id="@+id/patientEditProvince"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Province"
+                android:inputType="textPersonName"
+                android:textColor="#5A5A5A"
+                android:textSize="20sp"
+                android:typeface="serif" />
 
             <TextView
-                android:id="@+id/dobLabel"
+                android:id="@+id/patientEditInformationLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Date of Birth:"
+                android:text="Information:"
                 android:textColor="#242424"
-                android:textSize="24sp"
+                android:textSize="24dp"
                 android:typeface="serif" />
 
             <EditText
-                android:id="@+id/dobTextView"
+                android:id="@+id/patientEditDOB"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Month Day, Year"
-                android:inputType="datetime"
-                android:text="March 20, 1990"
+                android:ems="10"
+                android:hint="Date of Birth (DD-MM-YYYY)"
+                android:inputType="textPersonName"
                 android:textColor="#5A5A5A"
                 android:textSize="20sp"
                 android:typeface="serif" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="16dp" />
-
-            <TextView
-                android:id="@+id/insuranceLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Insurance No:"
-                android:textColor="#242424"
-                android:textSize="24sp"
-                android:typeface="serif" />
-
             <EditText
-                android:id="@+id/insuranceTextView"
+                android:id="@+id/patientEditSex"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:text="192 168 001 001"
-                android:textColor="#5A5A5A"
-                android:textSize="20sp"
-                android:typeface="serif" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="16dp" />
-
-            <TextView
-                android:id="@+id/sexLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Sex:"
-                android:textColor="#242424"
-                android:textSize="24sp"
-                android:typeface="serif" />
-
-            <EditText
-                android:id="@+id/sexTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:ems="10"
                 android:hint="Sex"
-                android:inputType="text"
-                android:text="Male"
+                android:inputType="textPersonName"
+                android:textColor="#5A5A5A"
+                android:textSize="20sp"
+                android:typeface="serif" />
+
+            <EditText
+                android:id="@+id/patientEditInsuranceNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Insurance Number"
+                android:inputType="textPersonName"
                 android:textColor="#5A5A5A"
                 android:textSize="20sp"
                 android:typeface="serif" />
@@ -176,23 +213,27 @@
     </ScrollView>
 
     <ImageView
-        android:id="@+id/patientAcctEditCancelButton"
+        android:id="@+id/patientEditCancel"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="32dp"
         android:src="@android:drawable/ic_menu_close_clear_cancel"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/patientEditScrollView" />
 
     <ImageView
-        android:id="@+id/patientAcctEditSaveButton"
+        android:id="@+id/patientEditSave"
         android:layout_width="64dp"
         android:layout_height="64dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
         android:src="@android:drawable/ic_menu_save"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/patientEditScrollView" />
 
 </android.support.constraint.ConstraintLayout>

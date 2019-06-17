@@ -4,10 +4,13 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import ca.ucalgary.cpsc471.bridge.DatabaseAdapter;
 import ca.ucalgary.cpsc471.bridge.R;
 
 /**
@@ -19,16 +22,13 @@ import ca.ucalgary.cpsc471.bridge.R;
  * create an instance of this fragment.
  */
 public class DentistAcctEditFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    DatabaseAdapter dbAdapter = null;
 
     public DentistAcctEditFragment() {
         // Required empty public constructor
@@ -62,17 +62,40 @@ public class DentistAcctEditFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dentist_acct_edit, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        dbAdapter = new DatabaseAdapter(getActivity());
+        dbAdapter.createDatabase();
+        dbAdapter.open();
+        View view = inflater.inflate(R.layout.fragment_dentist_acct_edit, container, false);
+        setDentistCancelButton(view);
+        setDentistSaveButton(view);
+        return view;
+    }
+    private void setDentistCancelButton(View view){
+        ImageView dentistCancelButton = view.findViewById(R.id.dentistEditCancel);
+        dentistCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.dentistAcctEditCL, DentistAcctFragment.newInstance(null, null));
+                ft.commit();
+            }
+        });
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    private void setDentistSaveButton(View view){
+        ImageView dentistSaveButton = view.findViewById(R.id.dentistEditSave);
+        dentistSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // TODO: Perform database operations.
+
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.dentistAcctEditCL, DentistAcctFragment.newInstance(null, null));
+                ft.commit();
+            }
+        });
     }
 
     @Override

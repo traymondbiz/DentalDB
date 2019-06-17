@@ -10,10 +10,17 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CalendarView;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import ca.ucalgary.cpsc471.bridge.DatabaseAdapter;
+import ca.ucalgary.cpsc471.bridge.DentistMainActivity;
 import ca.ucalgary.cpsc471.bridge.R;
 
 /**
@@ -25,30 +32,22 @@ import ca.ucalgary.cpsc471.bridge.R;
  * create an instance of this fragment.
  */
 public class DentistBookFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
+    // Unused parameters from template.
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
+    DatabaseAdapter dbAdapter = null;
     private OnFragmentInteractionListener mListener;
+    private String selectedDate = "";
 
     public DentistBookFragment() {
-        // Required empty public constructor
+        // Required empty public constructor.
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DentistBookFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+    // Returns a new instance of the fragment. Parameters are not used.
     public static DentistBookFragment newInstance(String param1, String param2) {
         DentistBookFragment fragment = new DentistBookFragment();
         Bundle args = new Bundle();
@@ -70,19 +69,38 @@ public class DentistBookFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dentist_book, container, false);
+        dbAdapter = new DatabaseAdapter(getActivity());
+        dbAdapter.createDatabase();
         setApptSpinnerContent(view);
         setTimeSpinnerContent(view);
         setApptButtonListener(view);
-        setAsstSpinnerListener(view);
+        //setAsstSpinnerListener(view);     // Disabled: No SQLiteDatabase query for available assistants for a given dentist, or query specification for it.
+        setCalenderViewListener(view);
 
-        // Hide the dentist assistant spinner for now.
+        // Initially hide the assistant spinner. (Since the default appt spinner option is Cleaning.)
         Spinner asstSpin = view.findViewById(R.id.dentistAsstSpinner);
         asstSpin.setVisibility(View.GONE);
 
         return view;
     }
 
+    // Sets up the Calender View, which will update the selected date on interaction.
+    private void setCalenderViewListener(View view){
+        CalendarView calendarView = view.findViewById(R.id.dentistBookCalenderView);
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(year, month, dayOfMonth);
+                long dateInMillis = calendar.getTimeInMillis();
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                selectedDate = simpleDateFormat.format(dateInMillis);
+            }
+        });
+    }
+
     // Sets up the Spinner in DentistBookFragment's layout.
+    // Unused.
     private void setApptSpinnerContent(View view){
         Spinner apptSpin = view.findViewById(R.id.dentistApptSpinner);
         String[] apptList = new String[]{"Cleaning", "Other"};
@@ -106,7 +124,7 @@ public class DentistBookFragment extends Fragment {
                 Spinner asstSpin = view.getRootView().findViewById(R.id.dentistAsstSpinner);
 
                 if (apptResult.equals("Other")){
-                    // TODO: Populate with the dentist's assistants.
+                    // TODO: Populate with the dentist's assistants using a DB query.
                     String[] asstList = new String[]{"Morris Code", "Jakob Schafer"};
                     ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, asstList);
                     asstSpin.setAdapter(arrayAdapter);
@@ -125,6 +143,7 @@ public class DentistBookFragment extends Fragment {
         });
     }
 
+
     // Sets up the available times Spinner.
     private void setTimeSpinnerContent(View view){
         Spinner timeSpin = view.findViewById(R.id.dentistTimeSpinner);
@@ -133,6 +152,7 @@ public class DentistBookFragment extends Fragment {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, timeList);
         timeSpin.setAdapter(arrayAdapter);
     }
+
 
     // Sets up a listener to handle button presses in PatientBookFragment's layout.
     private void setApptButtonListener(View view){
@@ -146,35 +166,55 @@ public class DentistBookFragment extends Fragment {
                 TextView selectedAppt = (TextView) apptSpin.getSelectedView();
                 String apptResult = selectedAppt.getText().toString();
 
-                // Get the appointment time.
+                // Get the appointment start time.
                 Spinner timeSpin = v.getRootView().findViewById(R.id.dentistTimeSpinner);
                 TextView selectedTime = (TextView) timeSpin.getSelectedView();
                 String timeResult = selectedTime.getText().toString();
 
-                if (apptResult.equals("Cleaning")){
-                    Toast.makeText(getActivity(), "Cleaning @ " + timeResult, Toast.LENGTH_SHORT).show();
-                    // TODO: Have the DB add a cleaning appointment.
-                    // Auto-increment an appointment ID.
-                    // Start time = selected time + date; End time = 1 hour from now.
-                    // Clinic = Dentist's clinic; Room = Hygienist's room; Hygienist's SIN = Patient's assigned hygienist.
-                    // Patient ID = The patient's ID.
+                // If no date is selected (ie. The user presses Book Appointment without interacting with the CalendarView), then pick the current date.
+                if (selectedDate.equals("")){
+                    CalendarView calendarView = v.getRootView().findViewById(R.id.dentistBookCalenderView);
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                    selectedDate = simpleDateFormat.format(calendarView.getDate());
                 }
-                else if (apptResult.equals("Other")){
-                    Toast.makeText(getActivity(), "Other @ " + timeResult, Toast.LENGTH_SHORT).show();
-                    // TODO: Have the DB add a cleaning appointment.
-                    // Auto-increment an appointment ID.
-                    // Start time = selected time + date; End time = 2 hours from now.
-                    // Clinic = Dentist's clinic; Room = Dentist's room; Dentist's SIN = Patient's assigned dentist; Assistant's SIN = Dentist's assigned assistant SIN
-                    // Patient ID = The patient's ID.
+
+                // Concatenate the selected time and date together.
+                timeResult = timeResult.concat("-" + selectedDate);
+
+                // Retrieve the ID of the patient to book the appointment for. Makes sure it exists and is valid before proceeding. Otherwise, an error toast is provided.
+                EditText selectedPatient = (EditText)  v.getRootView().findViewById(R.id.dentistPatientToBook);
+                String patientResult = selectedPatient.getText().toString();
+                if (patientResult.equals("")) {
+                    Toast.makeText(getActivity(), "No patient specified.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                dbAdapter.open();
+                boolean validID = dbAdapter.signInPatient(patientResult);
+                dbAdapter.close();
+                if (!validID){
+                    Toast.makeText(getActivity(), "Invalid patient ID.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Submit the query.
+                // TODO: Check the resulting boolean and then release a toast. Make sure the View-Appt updates accordingly to that. Check the Dentist's view as well.
+                dbAdapter.open();
+                boolean successfulBookResult = dbAdapter.bookAppointment(patientResult, timeResult, apptResult);
+                dbAdapter.close();
+
+                // Create a toast declaring success or failure of the booking.
+                if (successfulBookResult){
+                    // TODO: Use a DB query to get the patient's name based on the ID and display it for this toast.
+                    dbAdapter.open();
+
+                    Toast.makeText(getActivity(), "Appointment " + apptResult + " successfully booked for ID: " + patientResult + " at " + timeResult, Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    // Should never happen. (A different option must've been added.)
-                    Toast.makeText(getActivity(), "Unexpected Spinner selection.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Failed to book appointment. (Schedule Overlap.)", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
-
 
 
     @Override
@@ -194,26 +234,9 @@ public class DentistBookFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
+    // Can be used to facilitate interactions between the main activity and attached fragments.
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
-
-//    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
 }

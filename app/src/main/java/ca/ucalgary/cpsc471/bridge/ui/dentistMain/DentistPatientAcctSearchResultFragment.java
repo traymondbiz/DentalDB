@@ -1,4 +1,4 @@
-package ca.ucalgary.cpsc471.bridge.ui.patientMain;
+package ca.ucalgary.cpsc471.bridge.ui.dentistMain;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -11,38 +11,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ca.ucalgary.cpsc471.bridge.DatabaseAdapter;
-import ca.ucalgary.cpsc471.bridge.PatientMainActivity;
 import ca.ucalgary.cpsc471.bridge.R;
-
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link PatientAcctFragment.OnFragmentInteractionListener} interface
+ * {@link DentistPatientAcctSearchResultFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link PatientAcctFragment#newInstance} factory method to
+ * Use the {@link DentistPatientAcctSearchResultFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PatientAcctFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+public class DentistPatientAcctSearchResultFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    DatabaseAdapter dbAdapter = null;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
+    private String patientID;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    DatabaseAdapter dbAdapter = null;
 
-
-    public PatientAcctFragment() {
+    public DentistPatientAcctSearchResultFragment() {
         // Required empty public constructor
     }
-
 
     /**
      * Use this factory method to create a new instance of
@@ -50,11 +43,11 @@ public class PatientAcctFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment PatientAcctFragment.
+     * @return A new instance of fragment DentistPatientAcctSearchResultFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PatientAcctFragment newInstance(String param1, String param2) {
-        PatientAcctFragment fragment = new PatientAcctFragment();
+    public static DentistPatientAcctSearchResultFragment newInstance(String param1, String param2) {
+        DentistPatientAcctSearchResultFragment fragment = new DentistPatientAcctSearchResultFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -62,54 +55,41 @@ public class PatientAcctFragment extends Fragment {
         return fragment;
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            patientID = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         dbAdapter = new DatabaseAdapter(getActivity());
         dbAdapter.createDatabase();
-        View view = inflater.inflate(R.layout.fragment_patient_acct, container, false);
-
-        populateViewWithValues(view);
-        setPatientEditButton(view);
+        View view = inflater.inflate(R.layout.fragment_dentist_patient_acct_search_result, container, false);
+        populateFields(view);
+        setReturnButtonListener(view);
+        //Toast.makeText(getActivity(), "Received this arg: " + patientID, Toast.LENGTH_SHORT).show();
         return view;
     }
 
-    private void setPatientEditButton(View view){
-        ImageView patientEditButton = view.findViewById(R.id.patientEditButton);
-        patientEditButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.patientAcctCL, PatientAcctEditFragment.newInstance(null, null));
-                ft.commit();
-            }
-        });
-    }
-
-
-    private void populateViewWithValues(View view){
-        PatientMainActivity mainActivity = (PatientMainActivity) getActivity();
+    private void populateFields(View view){
+        if (patientID == null){
+            return;
+        }
         dbAdapter.open();
-        Cursor patientData = dbAdapter.viewPatientInfo(mainActivity.getPatientID());
+        Cursor patientData = dbAdapter.viewPatientInfo(patientID);
         patientData.moveToFirst();
 
-        TextView name = (TextView) view.findViewById(R.id.patientNameEditText);
-        TextView id = (TextView) view.findViewById(R.id.patientID);
-        TextView streetUnit = (TextView) view.findViewById(R.id.streetUnitTextView);
-        TextView cityProv = (TextView) view.findViewById(R.id.cityProvincePostalTextView);
-        TextView dob = (TextView) view.findViewById(R.id.dobTextView);
-        TextView insuranceID = (TextView) view.findViewById(R.id.insuranceTextView);
-        TextView sex = (TextView) view.findViewById(R.id.sexTextView);
+        TextView name = (TextView) view.findViewById(R.id.textView5);
+        TextView id = (TextView) view.findViewById(R.id.textView4);
+        TextView streetUnit = (TextView) view.findViewById(R.id.dentistSearchStreetUnitTextView);
+        TextView cityProv = (TextView) view.findViewById(R.id.dentistSearchCityProvincePostalTextView);
+        TextView dob = (TextView) view.findViewById(R.id.dentistSearchDOBTextView);
+        TextView insuranceID = (TextView) view.findViewById(R.id.dentistSearchInsuranceTextView);
+        TextView sex = (TextView) view.findViewById(R.id.dentistSearchSexTextView);
 
         String firstName = patientData.getString(patientData.getColumnIndex("FirstName"));
         String middleName = patientData.getString(patientData.getColumnIndex("MiddleName"));
@@ -157,9 +137,27 @@ public class PatientAcctFragment extends Fragment {
 
         sex.setText(patientData.getString(patientData.getColumnIndex("Sex")));
         dbAdapter.close();
-
     }
 
+    private void setReturnButtonListener(View view){
+        ImageView returnButton = view.findViewById(R.id.dentistAcctSearchResultReturnButton);
+        returnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.dentistPatientAcctSearchResultCL, DentistPatientAcctSearchFragment.newInstance(null, null));
+                Fragment f = getFragmentManager().findFragmentById(R.id.dentistPatientAcctSearchResultCL);
+                ft.commitAllowingStateLoss();
+            }
+        });
+    }
+
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -172,13 +170,11 @@ public class PatientAcctFragment extends Fragment {
         }
     }
 
-
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
-
 
     /**
      * This interface must be implemented by activities that contain this
