@@ -31,16 +31,13 @@ import ca.ucalgary.cpsc471.bridge.R;
  * create an instance of this fragment.
  */
 public class PatientBookFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    DatabaseAdapter dbAdapter = null;
+    // Unused parameters from template.
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
+    DatabaseAdapter dbAdapter = null;
     private OnFragmentInteractionListener mListener;
     private String selectedDate = "";
 
@@ -48,15 +45,7 @@ public class PatientBookFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PatientBookFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+    // Returns a new instance of the fragment. Parameters are not used.
     public static PatientBookFragment newInstance(String param1, String param2) {
         PatientBookFragment fragment = new PatientBookFragment();
         Bundle args = new Bundle();
@@ -136,11 +125,6 @@ public class PatientBookFragment extends Fragment {
                 TextView selectedTime = (TextView) timeSpin.getSelectedView();
                 String timeResult = selectedTime.getText().toString();
 
-                // Get the appointment date.
-                // TODO:    Install CalendarView separately and set up its listener to update a class-wide string both initially and whenever the date is changed.
-                //          Then, on button press, get the string, the date, concatenate them, and perform the query.
-                //          Check the resulting boolean and then release a toast. Make sure the View-Appt updates accordingly to that. Check the Dentist's view as well.
-
                 // If no date is selected (ie. The user presses Book Appointment without interacting with the CalendarView), then pick the current date.
                 if (selectedDate.equals("")){
                     CalendarView calendarView = v.getRootView().findViewById(R.id.patientBookCalenderView);
@@ -148,14 +132,18 @@ public class PatientBookFragment extends Fragment {
                     selectedDate = simpleDateFormat.format(calendarView.getDate());
                 }
 
+                // Concatenate the selected time and date together.
                 PatientMainActivity patientMainActivity = (PatientMainActivity)getActivity();
                 String patientID = patientMainActivity.getPatientID();
                 timeResult = timeResult.concat("-" + selectedDate);
 
+                // Submit the query.
+                // TODO: Check the resulting boolean and then release a toast. Make sure the View-Appt updates accordingly to that. Check the Dentist's view as well.
                 dbAdapter.open();
                 boolean successfulBookResult = dbAdapter.bookAppointment(patientID, timeResult, apptResult, null);
                 dbAdapter.close();
 
+                // Create a toast declaring success or failure of the booking.
                 if (successfulBookResult){
                     Toast.makeText(getActivity(), "Appointment " + apptResult + " successfully booked for: " + timeResult, Toast.LENGTH_SHORT).show();
                 }
