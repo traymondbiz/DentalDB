@@ -89,17 +89,30 @@ public class DatabaseAdapter {
             return false;
         }
         String assignedSIN;
+        Cursor res;
         String assignedClinic;
         String roomNumber;
         if(appointmentType == "cleaning"){
-            assignedSIN = (db.rawQuery("SELECT AssignedHygienistSIN from patient WHERE ID = ?",new String[] { patientID })).getString(0);
-            roomNumber = (db.rawQuery("SELECT AssignedRoom from Hygienist WHERE SIN = ?",new String[] { assignedSIN })).getString(0);
-            assignedClinic = (db.rawQuery("SELECT AppointedClinicName from Employee WHERE SIN = ?",new String[] { assignedSIN })).getString(0);
+            res = db.rawQuery("SELECT AssignedHygienistSIN from patient WHERE ID = ?",new String[] { patientID });
+            res.moveToFirst();
+            assignedSIN = res.getString(0);
+            res = db.rawQuery("SELECT AssignedRoom from Hygienist WHERE SIN = ?",new String[] { assignedSIN });
+            res.moveToFirst();
+            roomNumber = res.getString(0);
+            res = db.rawQuery("SELECT AppointedClinicName from Employee WHERE SIN = ?",new String[] { assignedSIN });
+            res.moveToFirst();
+            assignedClinic = res.getString(0);
         }
         else{
-            assignedSIN = (db.rawQuery("SELECT AssignedDentistSIN from patient WHERE ID = ?",new String[] { patientID })).getString(0);
-            roomNumber = (db.rawQuery("SELECT AssignedRoom from Dentist WHERE SIN = ?",new String[] { assignedSIN })).getString(0);
-            assignedClinic = (db.rawQuery("SELECT AppointedClinicName from Employee WHERE SIN = ?",new String[] { assignedSIN })).getString(0);
+            res = db.rawQuery("SELECT AssignedDentistSIN from patient WHERE ID = ?",new String[] { patientID });
+            res.moveToFirst();
+            assignedSIN = res.getString(0);
+            res = db.rawQuery("SELECT AssignedRoom from Dentist WHERE SIN = ?",new String[] { assignedSIN });
+            res.moveToFirst();
+            roomNumber = res.getString(0);
+            res = db.rawQuery("SELECT AppointedClinicName from Employee WHERE SIN = ?",new String[] { assignedSIN });
+            res.moveToFirst();
+            assignedClinic = res.getString(0);
         }
         if((appointmentAvailability(startTime, appointmentType, assignedSIN))==true){
             ContentValues appointmentContentValues = new ContentValues();
