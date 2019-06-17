@@ -132,10 +132,16 @@ public class DentistViewFragment extends Fragment {
             loc.setText(clinicName + " - Room " + roomNumber);
 
             Button viewCancelButton = (Button) aView.findViewById(R.id.cancelButton);
+            TextView aViewApptID = (TextView) aView.findViewById(R.id.idTextView);
+            final String aViewApptIDResult = aViewApptID.getText().toString();
             viewCancelButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getActivity(), "Cancel button is cancelled ;-(", Toast.LENGTH_SHORT).show();
+                    dbAdapter.open();
+                    dbAdapter.cancelAppointment(aViewApptIDResult);
+                    dbAdapter.close();
+                    apptList.removeView(aView);
+                    Toast.makeText(getActivity(), "Appointment cancelled.", Toast.LENGTH_SHORT).show();
                 }
             });
 

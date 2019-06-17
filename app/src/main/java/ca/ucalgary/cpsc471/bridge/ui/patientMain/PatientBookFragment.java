@@ -140,7 +140,7 @@ public class PatientBookFragment extends Fragment {
                 // Submit the query.
                 // TODO: Check the resulting boolean and then release a toast. Make sure the View-Appt updates accordingly to that. Check the Dentist's view as well.
                 dbAdapter.open();
-                boolean successfulBookResult = dbAdapter.bookAppointment(patientID, timeResult, apptResult, null);
+                boolean successfulBookResult = dbAdapter.bookAppointment(patientID, timeResult, apptResult);
                 dbAdapter.close();
 
                 // Create a toast declaring success or failure of the booking.
