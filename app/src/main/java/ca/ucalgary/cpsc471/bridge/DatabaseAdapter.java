@@ -84,7 +84,10 @@ public class DatabaseAdapter {
     }
 
     //Returns true if appointment is booked
-    public boolean bookAppointment(String patientID,String startTime, String appointmentType,String appointmentClinicName){
+    public boolean bookAppointment(String patientID,String startTime, String appointmentType){
+        if((db.rawQuery("SELECT * from patient WHERE ID = ?",new String[] { patientID })).getCount()==0){
+            return false;
+        }
         String assignedSIN;
         String assignedClinic;
         String roomNumber;
@@ -139,6 +142,19 @@ public class DatabaseAdapter {
         return false;
     }
 
+        //Returns true if appointment is cancelled
+    public boolean cancelAppointment(String appointmentID){
+        String appointmentType = (db.rawQuery("SELECT AppointmentType FROM appointment WHERE ID = ?",new String[] { appointmentID })).getString(0);
+        if(appointmentType == "cleaning"){
+            db.delete("cleaning", "ID = ?",new String[] {appointmentID});
+        }
+        else{
+            db.delete("other", "ID = ?",new String[] {appointmentID});
+        }
+        db.delete("appointment", "ID = ?",new String[] {appointmentID});
+        return true;
+    }
+    
     // Returns true once patient info is updated
     public boolean updatePatientInfo(String ID, String FName, String MName, String LName, String StNo, String unit, String postalCode,String city, String province, String DOB, String sex, String insurance){
         ContentValues contentValues = new ContentValues();
