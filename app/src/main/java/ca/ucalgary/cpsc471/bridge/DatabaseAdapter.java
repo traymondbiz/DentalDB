@@ -163,12 +163,18 @@ public class DatabaseAdapter {
         //Returns true if appointment is cancelled
     public boolean cancelAppointment(String appointmentID,String appointmentType){
         if(appointmentType.equals("Cleaning")){
-            db.rawQuery("DELETE from cleaning WHERE ID = ?",new String[] {appointmentID});
+            open();
+            db.execSQL("DELETE from cleaning WHERE ID = ?",new String[] {appointmentID});
+            close();
         }
         else{
-            db.rawQuery("DELETE from other WHERE ID = ?",new String[] {appointmentID});
+            open();
+            db.execSQL("DELETE from other WHERE ID = ?",new String[] {appointmentID});
+            close();
         }
-        db.rawQuery("DELETE from appointment WHERE ID = ?",new String[] {appointmentID});
+        open();
+        db.execSQL("DELETE from appointment WHERE ID = ?",new String[] {appointmentID});
+        close();
         return true;
     }
     

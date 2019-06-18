@@ -117,6 +117,9 @@ public class PatientViewFragment extends Fragment {
             TextView type = aView.findViewById(R.id.typeTextView);
             type.setText(patientAppts.getString(patientAppts.getColumnIndex("AppointmentType")));
 
+            TextView id = aView.findViewById(R.id.idTextView);
+            id.setText(patientAppts.getString(patientAppts.getColumnIndex("ID")));
+
             TextView loc = aView.findViewById(R.id.clinicRoomTextView);
             String clinicName = patientAppts.getString(patientAppts.getColumnIndex("AppointmentClinicName"));
             String roomNumber = patientAppts.getString(patientAppts.getColumnIndex("AppointRoomNumber"));
@@ -130,6 +133,7 @@ public class PatientViewFragment extends Fragment {
             viewCancelButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    System.out.println("Trying to delete ID: " + aViewApptIDResult);
                     dbAdapter.open();
                     dbAdapter.cancelAppointment(aViewApptIDResult, aViewApptTypeResult);
                     dbAdapter.close();
