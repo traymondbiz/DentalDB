@@ -99,11 +99,11 @@ public class DentistAcctFragment extends Fragment {
 
         TextView name = (TextView) view.findViewById(R.id.textView6);
         TextView clinic = (TextView) view.findViewById(R.id.textView7);
-        TextView streetUnit = (TextView) view.findViewById(R.id.streetUnitTextView);
-        TextView cityProv = (TextView) view.findViewById(R.id.cityProvincePostalTextView);
-        TextView dob = (TextView) view.findViewById(R.id.dobTextView);
+        TextView streetUnit = (TextView) view.findViewById(R.id.patientStreetUnitTextView);
+        TextView cityProv = (TextView) view.findViewById(R.id.patientCityProvincePostalTextView);
+        TextView dob = (TextView) view.findViewById(R.id.patientDOBTextView);
         TextView salary = (TextView) view.findViewById(R.id.salaryTextView);
-        TextView sex = (TextView) view.findViewById(R.id.sexTextView);
+        TextView sex = (TextView) view.findViewById(R.id.patientSexTextView);
 
         // TODO: Dentist is a specialization of employee. Some of these queries (like Salary) may require extra set-up.
         String firstName = dentistData.getString(dentistData.getColumnIndex("FirstName"));

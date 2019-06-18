@@ -4,11 +4,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,13 +32,11 @@ public class PatientAcctFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    DatabaseAdapter dbAdapter = null;
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    DatabaseAdapter dbAdapter = null;
 
 
     public PatientAcctFragment() {
@@ -78,22 +78,202 @@ public class PatientAcctFragment extends Fragment {
         dbAdapter = new DatabaseAdapter(getActivity());
         dbAdapter.createDatabase();
         View view = inflater.inflate(R.layout.fragment_patient_acct, container, false);
+        ConstraintLayout viewCL = view.findViewById(R.id.patientAcctViewCL);
+        ConstraintLayout editCL = view.findViewById(R.id.patientAcctEditCL);
+        viewCL.setVisibility(View.VISIBLE);
+        editCL.setVisibility(View.INVISIBLE);
 
         populateViewWithValues(view);
         setPatientEditButton(view);
+        setPatientSaveButton(view);
+        setPatientCancelButton(view);
         return view;
     }
 
     private void setPatientEditButton(View view){
-        ImageView patientEditButton = view.findViewById(R.id.patientEditButton);
+        ImageView patientEditButton = view.findViewById(R.id.patientAcctEditButton);
         patientEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.patientAcctCL, PatientAcctEditFragment.newInstance(null, null));
-                ft.commit();
+                populateEditWithValues(v.getRootView());
+                ConstraintLayout viewCL = v.getRootView().findViewById(R.id.patientAcctViewCL);
+                ConstraintLayout editCL = v.getRootView().findViewById(R.id.patientAcctEditCL);
+                viewCL.setVisibility(View.INVISIBLE);
+                editCL.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    private void setPatientSaveButton(View view){
+        ImageView patientSaveButton = view.findViewById(R.id.patientEditSave);
+        patientSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                performSave(v.getRootView());
+                populateViewWithValues(v.getRootView());
+                ConstraintLayout viewCL = v.getRootView().findViewById(R.id.patientAcctViewCL);
+                ConstraintLayout editCL = v.getRootView().findViewById(R.id.patientAcctEditCL);
+                viewCL.setVisibility(View.VISIBLE);
+                editCL.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
+
+    private void setPatientCancelButton(View view){
+        ImageView patientCancelButton = view.findViewById(R.id.patientEditCancel);
+        patientCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ConstraintLayout viewCL = v.getRootView().findViewById(R.id.patientAcctViewCL);
+                ConstraintLayout editCL = v.getRootView().findViewById(R.id.patientAcctEditCL);
+                viewCL.setVisibility(View.VISIBLE);
+                editCL.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
+
+    private void performSave(View view){
+        EditText firstName = (EditText) view.findViewById(R.id.patientEditFirstName);
+        EditText middleName = (EditText) view.findViewById(R.id.patientEditMiddleName);
+        EditText lastName = (EditText) view.findViewById(R.id.patientEditLastName);
+        EditText streetNumber = (EditText) view.findViewById(R.id.patientEditStreetNumber);
+        EditText unit = (EditText) view.findViewById(R.id.patientEditUnit);
+        EditText postalCode = (EditText) view.findViewById(R.id.patientEditPostalCode);
+        EditText city = (EditText) view.findViewById(R.id.patientEditCity);
+        EditText province = (EditText) view.findViewById(R.id.patientEditProvince);
+        EditText dob = (EditText) view.findViewById(R.id.patientEditDOB);
+        EditText sex = (EditText) view.findViewById(R.id.patientEditSex);
+        EditText insuranceNumber = (EditText) view.findViewById(R.id.patientEditInsuranceNumber);
+
+        if (firstName.getText().toString().equals("")){
+            firstName.setText("NULL");
+        }
+        if (middleName.getText().toString().equals("")){
+            middleName.setText("NULL");
+        }
+        if (lastName.getText().toString().equals("")){
+            lastName.setText("NULL");
+        }
+        if (streetNumber.getText().toString().equals("")){
+            streetNumber.setText("NULL");
+        }
+        if (unit.getText().toString().equals("")){
+            unit.setText("NULL");
+        }
+        if (postalCode.getText().toString().equals("")){
+            postalCode.setText("NULL");
+        }
+        if (city.getText().toString().equals("")){
+            city.setText("NULL");
+        }
+        if (province.getText().toString().equals("")){
+            province.setText("NULL");
+        }
+        if (dob.getText().toString().equals("")){
+            dob.setText("NULL");
+        }
+        if (sex.getText().toString().equals("")){
+            sex.setText("NULL");
+        }
+        if (insuranceNumber.getText().toString().equals("")){
+            insuranceNumber.setText("NULL");
+        }
+
+        PatientMainActivity mainActivity = (PatientMainActivity) getActivity();
+        String patientID = mainActivity.getPatientID();
+
+        dbAdapter.open();
+        dbAdapter.updatePatientInfo(patientID,
+                firstName.getText().toString(),
+                middleName.getText().toString(),
+                lastName.getText().toString(),
+                streetNumber.getText().toString(),
+                unit.getText().toString(),
+                postalCode.getText().toString(),
+                city.getText().toString(),
+                province.getText().toString(),
+                dob.getText().toString(),
+                sex.getText().toString(),
+                insuranceNumber.getText().toString());
+        dbAdapter.close();
+    }
+
+    private void populateEditWithValues(View view){
+        PatientMainActivity mainActivity = (PatientMainActivity) getActivity();
+        dbAdapter.open();
+        Cursor patientData = dbAdapter.viewPatientInfo(mainActivity.getPatientID());
+        patientData.moveToFirst();
+
+        EditText firstName = (EditText) view.findViewById(R.id.patientEditFirstName);
+        EditText middleName = (EditText) view.findViewById(R.id.patientEditMiddleName);
+        EditText lastName = (EditText) view.findViewById(R.id.patientEditLastName);
+        EditText streetNumber = (EditText) view.findViewById(R.id.patientEditStreetNumber);
+        EditText unit = (EditText) view.findViewById(R.id.patientEditUnit);
+        EditText postalCode = (EditText) view.findViewById(R.id.patientEditPostalCode);
+        EditText city = (EditText) view.findViewById(R.id.patientEditCity);
+        EditText province = (EditText) view.findViewById(R.id.patientEditProvince);
+        EditText dob = (EditText) view.findViewById(R.id.patientEditDOB);
+        EditText sex = (EditText) view.findViewById(R.id.patientEditSex);
+        EditText insuranceNumber = (EditText) view.findViewById(R.id.patientEditInsuranceNumber);
+
+        String firstNameResult = patientData.getString(patientData.getColumnIndex("FirstName"));
+        String middleNameResult = patientData.getString(patientData.getColumnIndex("MiddleName"));
+        String lastNameResult = patientData.getString(patientData.getColumnIndex("LastName"));
+        String streetNumberResult = patientData.getString(patientData.getColumnIndex("StreetNumber"));
+        String unitResult = patientData.getString(patientData.getColumnIndex("Unit"));
+        String postalCodeResult = patientData.getString(patientData.getColumnIndex("PostalCode"));
+        String cityResult = patientData.getString(patientData.getColumnIndex("City"));
+        String provinceResult = patientData.getString(patientData.getColumnIndex("Province"));
+        String dobResult = patientData.getString(patientData.getColumnIndex("DateOfBirth"));
+        String sexResult = patientData.getString(patientData.getColumnIndex("Sex"));
+        String insuranceNumberResult = patientData.getString(patientData.getColumnIndex("InsuranceNumber"));
+        dbAdapter.close();
+
+        if (firstNameResult.equals("NULL")){
+            firstNameResult = "";
+        }
+        if (middleNameResult.equals("NULL")){
+            middleNameResult = "";
+        }
+        if (lastNameResult.equals("NULL")){
+            lastNameResult = "";
+        }
+        if (streetNumberResult.equals("NULL")){
+            streetNumberResult = "";
+        }
+        if (unitResult.equals("NULL")){
+            unitResult = "";
+        }
+        if (postalCodeResult.equals("NULL")){
+            postalCodeResult = "";
+        }
+        if (cityResult.equals("NULL")){
+            cityResult = "";
+        }
+        if (provinceResult.equals("NULL")){
+            provinceResult = "";
+        }
+        if (dobResult.equals("NULL")){
+            dobResult = "";
+        }
+        if (sexResult.equals("NULL")){
+            sexResult = "";
+        }
+        if (insuranceNumberResult.equals("NULL")){
+            insuranceNumberResult = "";
+        }
+
+        firstName.setText(firstNameResult);
+        middleName.setText(middleNameResult);
+        lastName.setText(lastNameResult);
+        streetNumber.setText(streetNumberResult);
+        unit.setText(unitResult);
+        postalCode.setText(postalCodeResult);
+        city.setText(cityResult);
+        province.setText(provinceResult);
+        dob.setText(dobResult);
+        sex.setText(sexResult);
+        insuranceNumber.setText(insuranceNumberResult);
     }
 
 
@@ -103,13 +283,13 @@ public class PatientAcctFragment extends Fragment {
         Cursor patientData = dbAdapter.viewPatientInfo(mainActivity.getPatientID());
         patientData.moveToFirst();
 
-        TextView name = (TextView) view.findViewById(R.id.patientNameEditText);
-        TextView id = (TextView) view.findViewById(R.id.patientID);
-        TextView streetUnit = (TextView) view.findViewById(R.id.streetUnitTextView);
-        TextView cityProv = (TextView) view.findViewById(R.id.cityProvincePostalTextView);
-        TextView dob = (TextView) view.findViewById(R.id.dobTextView);
-        TextView insuranceID = (TextView) view.findViewById(R.id.insuranceTextView);
-        TextView sex = (TextView) view.findViewById(R.id.sexTextView);
+        TextView name = (TextView) view.findViewById(R.id.patientAcctName);
+        TextView id = (TextView) view.findViewById(R.id.patientAcctID);
+        TextView streetUnit = (TextView) view.findViewById(R.id.patientStreetUnitTextView);
+        TextView cityProv = (TextView) view.findViewById(R.id.patientCityProvincePostalTextView);
+        TextView dob = (TextView) view.findViewById(R.id.patientDOBTextView);
+        TextView insuranceID = (TextView) view.findViewById(R.id.patientInsuranceTextView);
+        TextView sex = (TextView) view.findViewById(R.id.patientSexTextView);
 
         String firstName = patientData.getString(patientData.getColumnIndex("FirstName"));
         String middleName = patientData.getString(patientData.getColumnIndex("MiddleName"));

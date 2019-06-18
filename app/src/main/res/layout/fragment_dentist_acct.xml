@@ -63,7 +63,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/addrLabel"
+                android:id="@+id/patientAddrLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Address:"
@@ -72,7 +72,7 @@
                 android:typeface="serif" />
 
             <TextView
-                android:id="@+id/streetUnitTextView"
+                android:id="@+id/patientStreetUnitTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="0 Nanton Park, SE"
@@ -81,7 +81,7 @@
                 android:typeface="serif" />
 
             <TextView
-                android:id="@+id/cityProvincePostalTextView"
+                android:id="@+id/patientCityProvincePostalTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Falscity, Nantario - NAN NAN"
@@ -94,7 +94,7 @@
                 android:layout_height="16dp" />
 
             <TextView
-                android:id="@+id/dobLabel"
+                android:id="@+id/patientDOBLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Date of Birth:"
@@ -103,7 +103,7 @@
                 android:typeface="serif" />
 
             <TextView
-                android:id="@+id/dobTextView"
+                android:id="@+id/patientDOBTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="April 20, 1985"
@@ -116,7 +116,7 @@
                 android:layout_height="16dp" />
 
             <TextView
-                android:id="@+id/insuranceLabel"
+                android:id="@+id/patientInsuranceLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Salary:"
@@ -138,7 +138,7 @@
                 android:layout_height="16dp" />
 
             <TextView
-                android:id="@+id/sexLabel"
+                android:id="@+id/patientSexLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Sex:"
@@ -147,7 +147,7 @@
                 android:typeface="serif" />
 
             <TextView
-                android:id="@+id/sexTextView"
+                android:id="@+id/patientSexTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Female"

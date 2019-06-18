@@ -5,16 +5,14 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
 import ca.ucalgary.cpsc471.bridge.ui.AboutFragment;
-import ca.ucalgary.cpsc471.bridge.ui.patientMain.PatientAcctEditFragment;
 import ca.ucalgary.cpsc471.bridge.ui.patientMain.PatientAcctFragment;
 import ca.ucalgary.cpsc471.bridge.ui.patientMain.PatientBookFragment;
 import ca.ucalgary.cpsc471.bridge.ui.patientMain.PatientViewFragment;
 import ca.ucalgary.cpsc471.bridge.ui.patientMain.SectionsPagerAdapter;
 
-public class PatientMainActivity extends AppCompatActivity implements PatientViewFragment.OnFragmentInteractionListener, PatientAcctFragment.OnFragmentInteractionListener, PatientAcctEditFragment.OnFragmentInteractionListener, PatientBookFragment.OnFragmentInteractionListener, AboutFragment.OnFragmentInteractionListener {
+public class PatientMainActivity extends AppCompatActivity implements PatientViewFragment.OnFragmentInteractionListener, PatientAcctFragment.OnFragmentInteractionListener, PatientBookFragment.OnFragmentInteractionListener, AboutFragment.OnFragmentInteractionListener {
 
     String patientID;
 
