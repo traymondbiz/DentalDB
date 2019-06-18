@@ -128,7 +128,7 @@ public class DatabaseAdapter {
             if(appointmentType.equals("Cleaning")){
                 ContentValues cleaningContentValues = new ContentValues();
                 cleaningContentValues.put("ID",appointmentID);
-                cleaningContentValues.put("AttendingHygienist",assignedSIN);
+                cleaningContentValues.put("AttendingHygienistSIN",assignedSIN);
                 db.insert("cleaning", null, cleaningContentValues);
             }
             else{

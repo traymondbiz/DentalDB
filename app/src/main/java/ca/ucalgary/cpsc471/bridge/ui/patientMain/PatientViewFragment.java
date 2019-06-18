@@ -133,7 +133,6 @@ public class PatientViewFragment extends Fragment {
             viewCancelButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    System.out.println("Trying to delete ID: " + aViewApptIDResult);
                     dbAdapter.open();
                     dbAdapter.cancelAppointment(aViewApptIDResult, aViewApptTypeResult);
                     dbAdapter.close();

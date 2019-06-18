@@ -204,13 +204,11 @@ public class DentistBookFragment extends Fragment {
 
                 // Create a toast declaring success or failure of the booking.
                 if (successfulBookResult){
-                    // TODO: Use a DB query to get the patient's name based on the ID and display it for this toast.
-                    dbAdapter.open();
 
                     Toast.makeText(getActivity(), "Appointment " + apptResult + " successfully booked for ID: " + patientResult + " at " + timeResult, Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Toast.makeText(getActivity(), "Failed to book appointment. (Schedule Overlap.)", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Failed to book appointment.", Toast.LENGTH_SHORT).show();
                 }
             }
         });

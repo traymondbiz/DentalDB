@@ -20,7 +20,6 @@ import java.text.DateFormatSymbols;
 
 import ca.ucalgary.cpsc471.bridge.DatabaseAdapter;
 import ca.ucalgary.cpsc471.bridge.DentistMainActivity;
-import ca.ucalgary.cpsc471.bridge.PatientMainActivity;
 import ca.ucalgary.cpsc471.bridge.R;
 
 /**
@@ -118,13 +117,9 @@ public class DentistViewFragment extends Fragment {
 
             TextView type = aView.findViewById(R.id.typeTextView);
             String apptType = dentistAppts.getString(dentistAppts.getColumnIndex("AppointmentType"));
-            if (apptType.equals("Other")) {
-                //type.setText(apptType + "- With: " + assistant);  // TODO: Attempt to chain queries to display the assistant's name.
-                type.setText(apptType);
-            }
-            else {
-                type.setText(apptType);
-            }
+
+            TextView id = aView.findViewById(R.id.idTextView);
+            id.setText(dentistAppts.getString(dentistAppts.getColumnIndex("ID")));
 
             TextView loc = aView.findViewById(R.id.clinicRoomTextView);
             String clinicName = dentistAppts.getString(dentistAppts.getColumnIndex("AppointmentClinicName"));
