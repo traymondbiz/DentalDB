@@ -32,7 +32,7 @@ public class DatabaseAdapter {
     public DatabaseAdapter open() throws SQLException {
         dbManager.openDatabase();
         dbManager.close();
-        db = dbManager.getReadableDatabase();
+        db = dbManager.getWritableDatabase();;
 
         return this;
     }
@@ -122,17 +122,23 @@ public class DatabaseAdapter {
             appointmentContentValues.put("AppointRoomNumber",roomNumber);
             appointmentContentValues.put("AppointPatientID", patientID);
             db.insert("appointment", null, appointmentContentValues);
+            res = db.rawQuery("SELECT ID from appointment WHERE AppointPatientID = ? AND StartTime = ?",new String[] { patientID,startTime });
+            res.moveToFirst();
+            String appointmentID = res.getString(0);
             if(appointmentType.equals("Cleaning")){
                 ContentValues cleaningContentValues = new ContentValues();
-                cleaningContentValues.put("ID",(db.rawQuery("SELECT ID from appointment WHERE AppointPatientID = ? AND StartTime = ?",new String[] { patientID,startTime })).getString(0));
+                cleaningContentValues.put("ID",appointmentID);
                 cleaningContentValues.put("AttendingHygienist",assignedSIN);
                 db.insert("cleaning", null, cleaningContentValues);
             }
             else{
                 ContentValues otherContentValues = new ContentValues();
-                otherContentValues.put("ID",(db.rawQuery("SELECT ID from appointment WHERE AppointPatientID = ? AND StartTime = ?",new String[] { patientID,startTime })).getString(0));
+                otherContentValues.put("ID",appointmentID);
                 otherContentValues.put("AttendingDentistSIN",assignedSIN);
-                otherContentValues.put("AttendingAssistantSIN",(db.rawQuery("SELECT SIN from dentalAssistant WHERE AssignedDentistSIN = ?",new String[] { assignedSIN })).getString(0));;
+                res = db.rawQuery("SELECT SIN from dentalAssistant WHERE AssignedDentistSIN = ?",new String[] { assignedSIN });
+                res.moveToFirst();
+                String AttendingAssistantSIN = res.getString(0);
+                otherContentValues.put("AttendingAssistantSIN",AttendingAssistantSIN);;
                 db.insert("other", null, otherContentValues);
             }
             return true;
