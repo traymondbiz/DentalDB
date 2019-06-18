@@ -278,7 +278,7 @@ public class DentistAcctFragment extends Fragment {
         TextView sex = (TextView) view.findViewById(R.id.dentistSexTextView);
         TextView clinic = (TextView) view.findViewById(R.id.dentistClinicTextView);
         TextView practice = (TextView) view.findViewById(R.id.dentistPracticeTextView);
-        TextView salary = (TextView) view.findViewById(R.id.dentistSalaryLabel);
+        TextView salary = (TextView) view.findViewById(R.id.dentistSalaryTextView);
 
         String firstName = dentistData.getString(dentistData.getColumnIndex("FirstName"));
         String middleName = dentistData.getString(dentistData.getColumnIndex("MiddleName"));
