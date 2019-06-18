@@ -116,7 +116,7 @@ public class DentistViewFragment extends Fragment {
             date.setText(startMonthTxt + " " + startDay + ", " + startYear);
 
             TextView type = aView.findViewById(R.id.typeTextView);
-            String apptType = dentistAppts.getString(dentistAppts.getColumnIndex("AppointmentType"));
+            type.setText(dentistAppts.getString(dentistAppts.getColumnIndex("AppointmentType")));
 
             TextView id = aView.findViewById(R.id.idTextView);
             id.setText(dentistAppts.getString(dentistAppts.getColumnIndex("ID")));
