@@ -85,8 +85,20 @@ public class PatientViewFragment extends Fragment {
 
         populateFields(view);
         setFilterButtonListener(view);
+        setRefreshButtonListener(view);
 
         return view;
+    }
+
+    private void setRefreshButtonListener(View view){
+        Button refreshButton = view.findViewById(R.id.patientViewRefreshButton);
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                apptList.removeAllViews();
+                populateFields(v.getRootView());
+            }
+        });
     }
 
     private void populateFields(View view){
