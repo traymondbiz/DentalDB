@@ -163,12 +163,12 @@ public class DatabaseAdapter {
         //Returns true if appointment is cancelled
     public boolean cancelAppointment(String appointmentID,String appointmentType){
         if(appointmentType.equals("Cleaning")){
-            db.delete("cleaning", "ID = ?",new String[] {appointmentID});
+            db.rawQuery("DELETE from cleaning WHERE ID = ?",new String[] {appointmentID});
         }
         else{
-            db.delete("other", "ID = ?",new String[] {appointmentID});
+            db.rawQuery("DELETE from other WHERE ID = ?",new String[] {appointmentID});
         }
-        db.delete("appointment", "ID = ?",new String[] {appointmentID});
+        db.rawQuery("DELETE from appointment WHERE ID = ?",new String[] {appointmentID});
         return true;
     }
     
@@ -203,7 +203,7 @@ public class DatabaseAdapter {
         contentValues.put("Province",province);
         contentValues.put("DateOfBirth",DOB);
         contentValues.put("Sex",sex);
-        db.update("dentist", contentValues, "SIN = ?",new String[] { SIN });
+        db.update("employee", contentValues, "SIN = ?",new String[] { SIN });
         return true;
     }
 
