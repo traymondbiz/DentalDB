@@ -4,11 +4,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -74,21 +76,192 @@ public class DentistAcctFragment extends Fragment {
         dbAdapter.createDatabase();
         View view = inflater.inflate(R.layout.fragment_dentist_acct, container, false);
 
+        ConstraintLayout viewCL = view.findViewById(R.id.dentistAcctViewCL);
+        ConstraintLayout editCL = view.findViewById(R.id.dentistAcctEditCL);
+        viewCL.setVisibility(View.VISIBLE);
+        editCL.setVisibility(View.INVISIBLE);
+
         populateViewWithValues(view);
         setDentistEditButton(view);
+        setDentistSaveButton(view);
+        setDentistCancelButton(view);
+
         return view;
     }
 
     private void setDentistEditButton(View view){
-        ImageView dentistEditButton = view.findViewById(R.id.dentistEditButton);
+        ImageView dentistEditButton = view.findViewById(R.id.dentistAcctEditButton);
         dentistEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.dentistAcctCL, DentistAcctEditFragment.newInstance(null, null));
-                ft.commit();
+                populateEditWithValues(v.getRootView());
+                ConstraintLayout viewCL = v.getRootView().findViewById(R.id.dentistAcctViewCL);
+                ConstraintLayout editCL = v.getRootView().findViewById(R.id.dentistAcctEditCL);
+                viewCL.setVisibility(View.INVISIBLE);
+                editCL.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    private void setDentistSaveButton(View view){
+        ImageView dentistSaveButton = view.findViewById(R.id.dentistEditSave);
+        dentistSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                performSave(v.getRootView());
+                populateViewWithValues(v.getRootView());
+                ConstraintLayout viewCL = v.getRootView().findViewById(R.id.dentistAcctViewCL);
+                ConstraintLayout editCL = v.getRootView().findViewById(R.id.dentistAcctEditCL);
+                viewCL.setVisibility(View.VISIBLE);
+                editCL.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
+
+    private void setDentistCancelButton(View view){
+        ImageView dentistCancelButton = view.findViewById(R.id.dentistEditCancel);
+        dentistCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ConstraintLayout viewCL = v.getRootView().findViewById(R.id.dentistAcctViewCL);
+                ConstraintLayout editCL = v.getRootView().findViewById(R.id.dentistAcctEditCL);
+                viewCL.setVisibility(View.VISIBLE);
+                editCL.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
+
+    private void performSave(View view){
+        EditText firstName = (EditText) view.findViewById(R.id.dentistEditFirstName);
+        EditText middleName = (EditText) view.findViewById(R.id.dentistEditMiddleName);
+        EditText lastName = (EditText) view.findViewById(R.id.dentistEditLastName);
+        EditText streetNumber = (EditText) view.findViewById(R.id.dentistEditStreetNumber);
+        EditText unit = (EditText) view.findViewById(R.id.dentistEditUnit);
+        EditText postalCode = (EditText) view.findViewById(R.id.dentistEditPostalCode);
+        EditText city = (EditText) view.findViewById(R.id.dentistEditCity);
+        EditText province = (EditText) view.findViewById(R.id.dentistEditProvince);
+        EditText dob = (EditText) view.findViewById(R.id.dentistEditDOB);
+        EditText sex = (EditText) view.findViewById(R.id.dentistEditSex);
+
+        if (firstName.getText().toString().equals("")){
+            firstName.setText("NULL");
+        }
+        if (middleName.getText().toString().equals("")){
+            middleName.setText("NULL");
+        }
+        if (lastName.getText().toString().equals("")){
+            lastName.setText("NULL");
+        }
+        if (streetNumber.getText().toString().equals("")){
+            streetNumber.setText("NULL");
+        }
+        if (unit.getText().toString().equals("")){
+            unit.setText("NULL");
+        }
+        if (postalCode.getText().toString().equals("")){
+            postalCode.setText("NULL");
+        }
+        if (city.getText().toString().equals("")){
+            city.setText("NULL");
+        }
+        if (province.getText().toString().equals("")){
+            province.setText("NULL");
+        }
+        if (dob.getText().toString().equals("")){
+            dob.setText("NULL");
+        }
+        if (sex.getText().toString().equals("")){
+            sex.setText("NULL");
+        }
+
+        DentistMainActivity mainActivity = (DentistMainActivity) getActivity();
+        String dentistID = mainActivity.getDentistID();
+
+        dbAdapter.open();
+        dbAdapter.updateDentistInfo(dentistID,
+                firstName.getText().toString(),
+                middleName.getText().toString(),
+                lastName.getText().toString(),
+                streetNumber.getText().toString(),
+                unit.getText().toString(),
+                postalCode.getText().toString(),
+                city.getText().toString(),
+                province.getText().toString(),
+                dob.getText().toString(),
+                sex.getText().toString());
+        dbAdapter.close();
+    }
+
+    private void populateEditWithValues(View view){
+        DentistMainActivity mainActivity = (DentistMainActivity) getActivity();
+        dbAdapter.open();
+        Cursor dentistData = dbAdapter.viewDentistInfo(mainActivity.getDentistID());
+        dentistData.moveToFirst();
+
+        EditText firstName = (EditText) view.findViewById(R.id.dentistEditFirstName);
+        EditText middleName = (EditText) view.findViewById(R.id.dentistEditMiddleName);
+        EditText lastName = (EditText) view.findViewById(R.id.dentistEditLastName);
+        EditText streetNumber = (EditText) view.findViewById(R.id.dentistEditStreetNumber);
+        EditText unit = (EditText) view.findViewById(R.id.dentistEditUnit);
+        EditText postalCode = (EditText) view.findViewById(R.id.dentistEditPostalCode);
+        EditText city = (EditText) view.findViewById(R.id.dentistEditCity);
+        EditText province = (EditText) view.findViewById(R.id.dentistEditProvince);
+        EditText dob = (EditText) view.findViewById(R.id.dentistEditDOB);
+        EditText sex = (EditText) view.findViewById(R.id.dentistEditSex);
+
+        String firstNameResult = dentistData.getString(dentistData.getColumnIndex("FirstName"));
+        String middleNameResult = dentistData.getString(dentistData.getColumnIndex("MiddleName"));
+        String lastNameResult = dentistData.getString(dentistData.getColumnIndex("LastName"));
+        String streetNumberResult = dentistData.getString(dentistData.getColumnIndex("StreetNumber"));
+        String unitResult = dentistData.getString(dentistData.getColumnIndex("Unit"));
+        String postalCodeResult = dentistData.getString(dentistData.getColumnIndex("PostalCode"));
+        String cityResult = dentistData.getString(dentistData.getColumnIndex("City"));
+        String provinceResult = dentistData.getString(dentistData.getColumnIndex("Province"));
+        String dobResult = dentistData.getString(dentistData.getColumnIndex("DateOfBirth"));
+        String sexResult = dentistData.getString(dentistData.getColumnIndex("Sex"));
+        dbAdapter.close();
+
+        if (firstNameResult.equals("NULL")){
+            firstNameResult = "";
+        }
+        if (middleNameResult.equals("NULL")){
+            middleNameResult = "";
+        }
+        if (lastNameResult.equals("NULL")){
+            lastNameResult = "";
+        }
+        if (streetNumberResult.equals("NULL")){
+            streetNumberResult = "";
+        }
+        if (unitResult.equals("NULL")){
+            unitResult = "";
+        }
+        if (postalCodeResult.equals("NULL")){
+            postalCodeResult = "";
+        }
+        if (cityResult.equals("NULL")){
+            cityResult = "";
+        }
+        if (provinceResult.equals("NULL")){
+            provinceResult = "";
+        }
+        if (dobResult.equals("NULL")){
+            dobResult = "";
+        }
+        if (sexResult.equals("NULL")){
+            sexResult = "";
+        }
+
+        firstName.setText(firstNameResult);
+        middleName.setText(middleNameResult);
+        lastName.setText(lastNameResult);
+        streetNumber.setText(streetNumberResult);
+        unit.setText(unitResult);
+        postalCode.setText(postalCodeResult);
+        city.setText(cityResult);
+        province.setText(provinceResult);
+        dob.setText(dobResult);
+        sex.setText(sexResult);
     }
 
     private void populateViewWithValues(View view){
@@ -97,15 +270,16 @@ public class DentistAcctFragment extends Fragment {
         Cursor dentistData = dbAdapter.viewDentistInfo(mainActivity.getDentistID());
         dentistData.moveToFirst();
 
-        TextView name = (TextView) view.findViewById(R.id.textView6);
-        TextView clinic = (TextView) view.findViewById(R.id.textView7);
-        TextView streetUnit = (TextView) view.findViewById(R.id.patientStreetUnitTextView);
-        TextView cityProv = (TextView) view.findViewById(R.id.patientCityProvincePostalTextView);
-        TextView dob = (TextView) view.findViewById(R.id.patientDOBTextView);
-        TextView salary = (TextView) view.findViewById(R.id.salaryTextView);
-        TextView sex = (TextView) view.findViewById(R.id.patientSexTextView);
+        TextView name = (TextView) view.findViewById(R.id.dentistAcctName);
+        TextView sin = (TextView) view.findViewById(R.id.dentistAcctSIN);
+        TextView streetUnit = (TextView) view.findViewById(R.id.dentistStreetUnitTextView);
+        TextView cityProv = (TextView) view.findViewById(R.id.dentistCityProvincePostalTextView);
+        TextView dob = (TextView) view.findViewById(R.id.dentistDOBTextView);
+        TextView sex = (TextView) view.findViewById(R.id.dentistSexTextView);
+        TextView clinic = (TextView) view.findViewById(R.id.dentistClinicTextView);
+        TextView practice = (TextView) view.findViewById(R.id.dentistPracticeTextView);
+        TextView salary = (TextView) view.findViewById(R.id.dentistSalaryLabel);
 
-        // TODO: Dentist is a specialization of employee. Some of these queries (like Salary) may require extra set-up.
         String firstName = dentistData.getString(dentistData.getColumnIndex("FirstName"));
         String middleName = dentistData.getString(dentistData.getColumnIndex("MiddleName"));
         String lastName = dentistData.getString(dentistData.getColumnIndex("LastName"));
@@ -127,7 +301,7 @@ public class DentistAcctFragment extends Fragment {
         }
         name.setText(firstName + middleName + lastName);
 
-        clinic.setText(dentistData.getString(dentistData.getColumnIndex("AppointedClinicName")));
+        sin.setText("SIN: " + dentistData.getString(dentistData.getColumnIndex("SIN")));
 
         String unit = dentistData.getString(dentistData.getColumnIndex("Unit"));
         String streetNumber = dentistData.getString(dentistData.getColumnIndex("StreetNumber"));
@@ -148,11 +322,11 @@ public class DentistAcctFragment extends Fragment {
 
         dob.setText(dentistData.getString(dentistData.getColumnIndex("DateOfBirth")));
 
+        clinic.setText(dentistData.getString(dentistData.getColumnIndex("AppointedClinicName")));
+        practice.setText(dentistData.getString(dentistData.getColumnIndex("TypeOfPractice")));
         salary.setText(dentistData.getString(dentistData.getColumnIndex("Salary")));
-
         sex.setText(dentistData.getString(dentistData.getColumnIndex("Sex")));
         dbAdapter.close();
-
 
     }
 

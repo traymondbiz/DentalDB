@@ -78,6 +78,7 @@ public class PatientAcctFragment extends Fragment {
         dbAdapter = new DatabaseAdapter(getActivity());
         dbAdapter.createDatabase();
         View view = inflater.inflate(R.layout.fragment_patient_acct, container, false);
+
         ConstraintLayout viewCL = view.findViewById(R.id.patientAcctViewCL);
         ConstraintLayout editCL = view.findViewById(R.id.patientAcctEditCL);
         viewCL.setVisibility(View.VISIBLE);

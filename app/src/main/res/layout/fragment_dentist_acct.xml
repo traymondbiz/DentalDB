@@ -2,170 +2,432 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/dentistAcctCL"
+    android:id="@+id/dentistAcctMainCL"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     tools:context=".ui.dentistMain.DentistAcctFragment">
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:src="@drawable/dentalicon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/dentistAcctEditCL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        tools:context=".ui.dentistMain.DebntistAcctEditFragment">
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
-        android:text="Jane Doe"
-        android:textColor="#343434"
-        android:textSize="24sp"
-        android:typeface="serif"
-        app:layout_constraintStart_toEndOf="@+id/imageView3"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="250dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:text="Placeholder Clinic"
-        android:textColor="#343434"
-        android:textSize="18sp"
-        android:typeface="serif"
-        app:layout_constraintStart_toEndOf="@+id/imageView3"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-    <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7">
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/dentistEditID"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginStart="133dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="133dp"
+            android:text="EDIT MODE\nSIN: 11223344"
+            android:textAlignment="center"
+            android:textColor="#343434"
+            android:textSize="24sp"
+            android:typeface="serif"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/patientAddrLabel"
+        <ScrollView
+            android:id="@+id/dentistEditScrollView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/dentistEditCancel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dentistEditID">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Address:"
-                android:textColor="#242424"
-                android:textSize="24sp"
-                android:typeface="serif" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/patientStreetUnitTextView"
+                <TextView
+                    android:id="@+id/dentistEditNameLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name:"
+                    android:textColor="#242424"
+                    android:textSize="24dp"
+                    android:typeface="serif" />
+
+                <EditText
+                    android:id="@+id/dentistEditFirstName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="First Name"
+                    android:inputType="textPersonName"
+                    android:textColor="#5A5A5A"
+                    android:textSize="20sp"
+                    android:typeface="serif" />
+
+                <EditText
+                    android:id="@+id/dentistEditMiddleName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Middle Name"
+                    android:inputType="textPersonName"
+                    android:textColor="#5A5A5A"
+                    android:textSize="20sp"
+                    android:typeface="serif" />
+
+                <EditText
+                    android:id="@+id/dentistEditLastName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Last Name"
+                    android:inputType="textPersonName"
+                    android:textColor="#5A5A5A"
+                    android:textSize="20sp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:id="@+id/dentistEditAddressLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Address:"
+                    android:textColor="#242424"
+                    android:textSize="24dp"
+                    android:typeface="serif" />
+
+                <EditText
+                    android:id="@+id/dentistEditStreetNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Street Number"
+                    android:inputType="textPersonName"
+                    android:textColor="#5A5A5A"
+                    android:textSize="20sp"
+                    android:typeface="serif" />
+
+                <EditText
+                    android:id="@+id/dentistEditUnit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Unit"
+                    android:inputType="textPersonName"
+                    android:textColor="#5A5A5A"
+                    android:textSize="20sp"
+                    android:typeface="serif" />
+
+                <EditText
+                    android:id="@+id/dentistEditPostalCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Postal Code (A1A 1A1)"
+                    android:inputType="textPersonName"
+                    android:textColor="#5A5A5A"
+                    android:textSize="20sp"
+                    android:typeface="serif" />
+
+                <EditText
+                    android:id="@+id/dentistEditCity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="City"
+                    android:inputType="textPersonName"
+                    android:textColor="#5A5A5A"
+                    android:textSize="20sp"
+                    android:typeface="serif" />
+
+                <EditText
+                    android:id="@+id/dentistEditProvince"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Province"
+                    android:inputType="textPersonName"
+                    android:textColor="#5A5A5A"
+                    android:textSize="20sp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:id="@+id/dentistEditInformationLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Information:"
+                    android:textColor="#242424"
+                    android:textSize="24dp"
+                    android:typeface="serif" />
+
+                <EditText
+                    android:id="@+id/dentistEditDOB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Date of Birth (DD-MM-YYYY)"
+                    android:inputType="textPersonName"
+                    android:textColor="#5A5A5A"
+                    android:textSize="20sp"
+                    android:typeface="serif" />
+
+                <EditText
+                    android:id="@+id/dentistEditSex"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Sex"
+                    android:inputType="textPersonName"
+                    android:textColor="#5A5A5A"
+                    android:textSize="20sp"
+                    android:typeface="serif" />
+
+            </LinearLayout>
+        </ScrollView>
+
+        <ImageView
+            android:id="@+id/dentistEditCancel"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="32dp"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dentistEditScrollView" />
+
+        <ImageView
+            android:id="@+id/dentistEditSave"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="32dp"
+            android:src="@android:drawable/ic_menu_save"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dentistEditScrollView" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/dentistAcctViewCL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF">
+
+        <ImageView
+            android:id="@+id/dentistAcctPlaceholderIMG"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/dentalicon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/dentistAcctName"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:text="John Doe"
+            android:textColor="#343434"
+            android:textSize="24sp"
+            android:typeface="serif"
+            app:layout_constraintStart_toEndOf="@+id/dentistAcctPlaceholderIMG"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/dentistAcctSIN"
+            android:layout_width="250dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:text="SIN: 555 555 555"
+            android:textColor="#343434"
+            android:textSize="18sp"
+            android:typeface="serif"
+            app:layout_constraintStart_toEndOf="@+id/dentistAcctPlaceholderIMG"
+            app:layout_constraintTop_toBottomOf="@+id/dentistAcctName" />
+
+        <ImageView
+            android:id="@+id/dentistAcctEditButton"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="32dp"
+            android:src="@android:drawable/ic_menu_edit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <ScrollView
+            android:id="@+id/dentistViewSV"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/dentistAcctEditButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dentistAcctSIN">
+
+            <LinearLayout
+                android:id="@+id/dentistViewLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0 Nanton Park, SE"
-                android:textColor="#5A5A5A"
-                android:textSize="20sp"
-                android:typeface="serif" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/patientCityProvincePostalTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Falscity, Nantario - NAN NAN"
-                android:textColor="#5A5A5A"
-                android:textSize="20sp"
-                android:typeface="serif" />
+                <TextView
+                    android:id="@+id/dentistAddrLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Address:"
+                    android:textColor="#242424"
+                    android:textSize="24sp"
+                    android:typeface="serif" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="16dp" />
+                <TextView
+                    android:id="@+id/dentistStreetUnitTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="2000 Nullville Heights NW"
+                    android:textColor="#5A5A5A"
+                    android:textSize="20sp"
+                    android:typeface="serif" />
 
-            <TextView
-                android:id="@+id/patientDOBLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Date of Birth:"
-                android:textColor="#242424"
-                android:textSize="24sp"
-                android:typeface="serif" />
+                <TextView
+                    android:id="@+id/dentistCityProvincePostalTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Falscity, Nantario - NULL 404"
+                    android:textColor="#5A5A5A"
+                    android:textSize="20sp"
+                    android:typeface="serif" />
 
-            <TextView
-                android:id="@+id/patientDOBTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="April 20, 1985"
-                android:textColor="#5A5A5A"
-                android:textSize="20sp"
-                android:typeface="serif" />
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="16dp" />
+                <TextView
+                    android:id="@+id/dentistDOBLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Date of Birth:"
+                    android:textColor="#242424"
+                    android:textSize="24sp"
+                    android:typeface="serif" />
 
-            <TextView
-                android:id="@+id/patientInsuranceLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Salary:"
-                android:textColor="#242424"
-                android:textSize="24sp"
-                android:typeface="serif" />
+                <TextView
+                    android:id="@+id/dentistDOBTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="March 20, 1990"
+                    android:textColor="#5A5A5A"
+                    android:textSize="20sp"
+                    android:typeface="serif" />
 
-            <TextView
-                android:id="@+id/salaryTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="66 000"
-                android:textColor="#5A5A5A"
-                android:textSize="20sp"
-                android:typeface="serif" />
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="16dp" />
+                <TextView
+                    android:id="@+id/dentistSexLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Sex:"
+                    android:textColor="#242424"
+                    android:textSize="24sp"
+                    android:typeface="serif" />
 
-            <TextView
-                android:id="@+id/patientSexLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Sex:"
-                android:textColor="#242424"
-                android:textSize="24sp"
-                android:typeface="serif" />
+                <TextView
+                    android:id="@+id/dentistSexTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Male"
+                    android:textColor="#5A5A5A"
+                    android:textSize="20sp"
+                    android:typeface="serif" />
 
-            <TextView
-                android:id="@+id/patientSexTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Female"
-                android:textColor="#5A5A5A"
-                android:textSize="20sp"
-                android:typeface="serif" />
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" />
 
-        </LinearLayout>
-    </ScrollView>
+                <TextView
+                    android:id="@+id/dentistClinicLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Clinic:"
+                    android:textColor="#242424"
+                    android:textSize="24sp"
+                    android:typeface="serif" />
 
-    <ImageView
-        android:id="@+id/dentistEditButton"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
-        android:src="@android:drawable/ic_menu_edit"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+                <TextView
+                    android:id="@+id/dentistClinicTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Placeholder Clinic"
+                    android:textColor="#5A5A5A"
+                    android:textSize="20sp"
+                    android:typeface="serif" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" />
+
+                <TextView
+                    android:id="@+id/dentistPracticeLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Practice:"
+                    android:textColor="#242424"
+                    android:textSize="24sp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:id="@+id/dentistPracticeTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Invisalign"
+                    android:textColor="#5A5A5A"
+                    android:textSize="20sp"
+                    android:typeface="serif" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" />
+
+                <TextView
+                    android:id="@+id/dentistSalaryLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Salary:"
+                    android:textColor="#242424"
+                    android:textSize="24sp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:id="@+id/dentistSalaryTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="15 000"
+                    android:textColor="#5A5A5A"
+                    android:textSize="20sp"
+                    android:typeface="serif" />
+
+            </LinearLayout>
+        </ScrollView>
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>
